@@ -1,0 +1,39 @@
+{
+  "name": "kool-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --outDir ./dist",
+    "migrate:run": "npx typeorm-ts-node-commonjs migration:run -d ./src/data/db/config.ts",
+    "migrate:create": "npx typeorm-ts-node-commonjs migration:create ./src/data/db/migration/:migration_name"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "20.11.28",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "7.2.0",
+    "chai": "5.1.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-config-standard-with-typescript": "43.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "5.1.3",
+    "eslint-plugin-promise": "^6.0.0",
+    "mocha": "10.3.0",
+    "prettier": "3.2.5",
+    "ts-node": "10.9.2",
+    "tsc": "2.0.4",
+    "tsc-watch": "6.0.4",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "pg": "8.11.3",
+    "reflect-metadata": "0.2.1",
+    "typeorm": "0.3.17",
+    "zod": "3.22.4"
+  }
+}
