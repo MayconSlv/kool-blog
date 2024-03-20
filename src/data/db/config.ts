@@ -1,4 +1,4 @@
-import { Env } from '@/env'
+import { Env } from '@env'
 import path from 'path'
 import { DataSource, type DataSourceOptions } from 'typeorm'
 
@@ -10,7 +10,7 @@ export const DbOptions: DataSourceOptions = {
   password: Env.DB_PASSWORD,
   database: Env.DB_DATABASE,
   entities: [path.join(__dirname, './') + 'entity/index.{ts,js}'],
-  migrations: [path.join(__dirname, './') + 'migration/*.{ts,js}']
+  migrations: [path.join(__dirname, './') + 'migration/*.{ts,js}'],
 }
 
 export const DBConnection = new DataSource(DbOptions)

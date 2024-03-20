@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2021",
+    "target": "es2022",
     "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -9,11 +9,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "baseUrl": "./",
+    "outDir": "./dist",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@env": ["./env"]
     }
   }
 }
