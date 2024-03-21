@@ -10,7 +10,7 @@
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "start:dev": "ts-node -r tsconfig-paths/register src/api/index.ts",
-    "start": "npm run build && node dist/api/index.js"
+    "start": "npm run build && node -r ./tsconfig-paths-dist.js dist/api/index.js"
   },
   "keywords": [],
   "author": "mayconslv <mayconslv.contato@gmail.com>",
@@ -41,6 +41,7 @@
     "reflect-metadata": "0.2.1",
     "tsconfig-paths": "4.2.0",
     "type-graphql": "1.1.1",
+    "typedi": "0.10.0",
     "typeorm": "0.3.17",
     "zod": "3.22.4"
   },
