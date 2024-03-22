@@ -9,10 +9,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "outDir": "./dist",
+    "outDir": "node_modules/dist",
     "baseUrl": "./src",
     "paths": {
-      "@env": ["./env"]
+      "@env": ["./env"],
+      "@env/*": ["./env/*"],
+      "@data": ["./data"],
+      "@data/*": ["./data/*"],
+      "@domain": ["./domain"],
+      "@domain/*": ["./domain/*"]
     }
   }
 }
