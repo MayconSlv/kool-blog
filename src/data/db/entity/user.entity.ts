@@ -5,6 +5,15 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+@Entity({ name: 'user' })
+=======
+@Entity()
+>>>>>>> Stashed changes
+export class UserEntity extends BaseColumnsEntity {
+>>>>>>> Stashed changes
   @Column()
   name: string
 
