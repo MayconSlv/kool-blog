@@ -1,5 +1,5 @@
 import { DBConnection } from 'data/db/config'
-import { UserEntity } from 'data/db/entity'
+import { UserEntity } from 'data/db/entity/user.entity'
 import { UserModel } from 'domain/model'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
@@ -19,6 +19,10 @@ export class UserDbDataSource {
 
   findOneByEmail(email: string): Promise<UserModel | null> {
     return this.repository.findOne({ where: { email } })
+  }
+
+  findByUsername(username: string): Promise<UserModel | null> {
+    return this.repository.findOne({ where: { username } })
   }
 
   createUser(input: CreateUserDataInput): Promise<UserModel> {

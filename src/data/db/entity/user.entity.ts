@@ -1,19 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity } from 'typeorm'
+import { BaseColumnsEntity } from '../core'
 
-@Entity()
-export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number
-
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
 @Entity({ name: 'user' })
-=======
-@Entity()
->>>>>>> Stashed changes
 export class UserEntity extends BaseColumnsEntity {
->>>>>>> Stashed changes
   @Column()
   name: string
 

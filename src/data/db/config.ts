@@ -1,4 +1,4 @@
-import { Env } from '@env'
+import { Env } from '../../env'
 import path from 'path'
 import { DataSource, type DataSourceOptions } from 'typeorm'
 

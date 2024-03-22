@@ -1,18 +1,11 @@
 import {
   CreateDateColumn,
-  Generated,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 
 export class BaseColumnsEntity {
-<<<<<<< Updated upstream
-  @Generated()
-  @PrimaryColumn()
-=======
-  @PrimaryColumn('uuid')
-  @Generated()
->>>>>>> Stashed changes
+  @PrimaryGeneratedColumn('uuid')
   id: string
 
   @CreateDateColumn()

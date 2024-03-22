@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "migrate:run": "npx typeorm-ts-node-commonjs migration:run -d ./src/data/db/config.ts",
-    "migrate:create": "npx typeorm-ts-node-commonjs migration:create ./src/data/db/migration/:migration_name",
+    "migrate:generate": "npx typeorm-ts-node-commonjs migration:generate -d ./src/data/db/config.ts ./src/data/db/migration/addNewsColumns",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "start:dev": "ts-node -r tsconfig-paths/register src/api/index.ts",

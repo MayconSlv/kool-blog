@@ -16,6 +16,13 @@ export class CreateUserUseCase {
       throw new Error('email already exists.')
     }
 
+    const userWithSameUsername = await this.userDataSource.findByUsername(
+      input.username,
+    )
+    if (userWithSameUsername) {
+      throw new Error('username already exists')
+    }
+
     return this.userDataSource.createUser({
       ...input,
       passwordHash: await hash(input.password, 6),
