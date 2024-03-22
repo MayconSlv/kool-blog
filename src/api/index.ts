@@ -2,7 +2,6 @@ import 'reflect-metadata'
 import { ApolloServer } from 'apollo-server'
 import { buildSchema } from 'type-graphql'
 import { DBConnection } from '../data/db/config'
-import { HelloWorldResolver } from './module/hello-world.resolver'
 
 async function server() {
   const schema = await buildSchema({
