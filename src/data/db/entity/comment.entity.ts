@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne } from 'typeorm'
 import { UserEntity } from './user.entity'
 import { PostEntity } from './post.entity'
-import { BaseColumnsEntity } from '../core'
+import { BaseColumnsEntity } from '@data/db/core'
 
 @Entity({ name: 'comment' })
 export class CommentEntity extends BaseColumnsEntity {
