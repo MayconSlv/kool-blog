@@ -1,9 +1,9 @@
-import { UserModel } from 'domain/model'
-import { CreateUserUseCase } from 'domain/user'
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
 import { Service } from 'typedi'
 import { CreateUserInput } from './user.input'
 import { User } from './user.type'
+import { CreateUserUseCase } from '@domain/user'
+import { UserModel } from '@domain/model'
 
 @Service()
 @Resolver()

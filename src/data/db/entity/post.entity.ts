@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from 'typeorm'
 import { UserEntity } from './user.entity'
-import { BaseColumnsEntity } from '../core'
+import { BaseColumnsEntity } from '@data/db/core'
 
 @Entity({ name: 'post' })
 export class PostEntity extends BaseColumnsEntity {

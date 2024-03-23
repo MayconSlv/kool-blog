@@ -1,5 +1,5 @@
+import { CreateUserInputModel } from '@domain/model'
 import { IsDate, IsEmail, IsString } from 'class-validator'
-import { CreateUserInputModel } from 'domain/model'
 import { Field, InputType } from 'type-graphql'
 
 @InputType()

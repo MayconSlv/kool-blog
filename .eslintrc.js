@@ -27,7 +27,9 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-var-requires': 'off',
-    'no-useless-constructor': 'off'
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off'
   },
   settings: {
     'import/parsers': {

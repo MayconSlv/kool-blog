@@ -1,6 +1,6 @@
-import { DBConnection } from 'data/db/config'
-import { UserEntity } from 'data/db/entity/user.entity'
-import { UserModel } from 'domain/model'
+import { DBConnection } from '@data/db/config'
+import { UserEntity } from '@data/db/entity'
+import { UserModel } from '@domain/model'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
 

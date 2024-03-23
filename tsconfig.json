@@ -12,7 +12,16 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@env": ["./env"]
+      "@env": ["./env"],
+      "@env/*": ["./env/*"],
+      "@data": ["./data"],
+      "@data/*": ["./data/*"],
+      "@api": ["./api"],
+      "@api/": ["./api/*"],
+      "@domain": ["./domain"],
+      "@domain/*": ["./domain/*"],
+      "@test": ["./test"],
+      "@test/*": ["./test/*"]
     }
   }
 }

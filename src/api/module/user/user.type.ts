@@ -1,11 +1,8 @@
-import { UserModel } from 'domain/model'
-import { Field, ID, ObjectType } from 'type-graphql'
+import { UserModel } from '@domain/model'
+import { Field, ObjectType } from 'type-graphql'
 
 @ObjectType()
 export class User implements UserModel {
-  @Field(() => ID)
-  id: string
-
   @Field({ description: 'Nome do usuário' })
   name: string
 
@@ -14,4 +11,7 @@ export class User implements UserModel {
 
   @Field({ description: 'Email do usuário' })
   email: string
+
+  @Field({ description: 'Data de aniversário' })
+  birthDate: Date
 }

@@ -1,7 +1,7 @@
-import { UserDbDataSource } from 'data/user/user.db.datasource'
-import { CreateUserInputModel, UserModel } from 'domain/model/user.model'
+import { UserDbDataSource } from '../../data/user/user.db.datasource'
 import { Service } from 'typedi'
 import { hash } from 'bcryptjs'
+import { CreateUserInputModel, UserModel } from '../model'
 
 @Service()
 export class CreateUserUseCase {
