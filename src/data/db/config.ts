@@ -1,6 +1,6 @@
-import { Env } from '@env'
+import { Env } from '../../env'
 import path from 'path'
-import { DataSource, type DataSourceOptions } from 'typeorm'
+import { DataSource, DataSourceOptions } from 'typeorm'
 
 export const DbOptions: DataSourceOptions = {
   type: 'postgres' as const,

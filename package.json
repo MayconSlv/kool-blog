@@ -9,6 +9,8 @@
     "migrate": "npm run typeorm migration:run -- -d ./src/data/db/config.ts",
     "migrate:test": "npm run typeorm migration:run -- -d ./src/data/db/config.ts -- --dotenv dotenv_config_path=.env.test",
     "migrate:generate": "npm run typeorm migration:generate ./src/data/db/migration/addNewsColumns -- -d ./src/data/db/config.ts",
+    "migrate": "npx typeorm-ts-node-commonjs migration:run -d ./src/data/db/config.ts ",
+    "migrate:generate": "npx typeorm-ts-node-commonjs migration:generate -- -d src/data/db/config.ts src/data/db/migration/addcolumn",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "start": "npm run build && node -r ./tsconfig-paths-dist.js dist/api/index.js",

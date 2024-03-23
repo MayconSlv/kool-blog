@@ -7,7 +7,7 @@ import Container from 'typedi'
 
 async function server() {
   const schema = await buildSchema({
-    resolvers: [join(__dirname, 'module', '**', '*.resolver.{ts,js}')],
+    resolvers: [join(__dirname, 'module', '**', '*.resolver.{ts, js}')],
     container: Container,
   })
 
