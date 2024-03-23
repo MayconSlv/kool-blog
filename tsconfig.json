@@ -9,7 +9,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "outDir": "node_modules/dist",
+    "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
       "@env": ["./env"],
@@ -17,7 +17,7 @@
       "@data": ["./data"],
       "@data/*": ["./data/*"],
       "@api": ["./api"],
-      "@api/*": ["./api/*"],
+      "@api/": ["./api/*"],
       "@domain": ["./domain"],
       "@domain/*": ["./domain/*"],
       "@test": ["./test"],
