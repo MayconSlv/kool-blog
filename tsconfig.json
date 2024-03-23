@@ -17,7 +17,7 @@
       "@data": ["./data"],
       "@data/*": ["./data/*"],
       "@api": ["./api"],
-      "@api/": ["./api/*"],
+      "@api/*": ["./api/*"],
       "@domain": ["./domain"],
       "@domain/*": ["./domain/*"],
       "@test": ["./test"],
