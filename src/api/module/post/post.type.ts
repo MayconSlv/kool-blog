@@ -5,6 +5,9 @@ import { User } from '../user/user.type'
 
 @ObjectType()
 export class Post implements PostModel {
+  @Field()
+  id: string
+
   @Field({ description: 'Conteúdo do post' })
   content: string
 

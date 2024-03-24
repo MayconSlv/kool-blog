@@ -1,6 +1,7 @@
 import { UserModel } from './user.model'
 
 export interface PostModel {
+  id: string
   content: string
   user: UserModel
 }

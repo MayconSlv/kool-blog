@@ -48,10 +48,12 @@ describe('GraphQL - Create a post - Mutation', async () => {
   it('should be able to create a user correctly', async () => {
     const response = await makeRequest.post<Response>(mutation, { input })
 
-    const postResponse = response.body.data
-    expect(postResponse?.createPost)
-      .to.have.property('content')
-      .that.is.eq(input.content)
+    const postRes = response.body.data.createPost
+    const postDb = await repositories.post.findOneOrFail({
+      where: { id: postRes.id },
+    })
+    expect(postRes.content).to.be.eq(postDb.content)
+    expect(postRes.id).to.be.deep.eq(postDb.id)
   })
 
   it('shoult not be able to create a post using a username not saved in the database', async () => {

@@ -1,6 +1,6 @@
 query GetPosts {
   getPosts {
-    content 
+    content id
     user {
       name username email birthDate
     }
