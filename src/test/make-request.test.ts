@@ -3,7 +3,7 @@ import { print } from 'graphql'
 
 interface HttpResponse<T> {
   body: {
-    data?: T
+    data: T
     errors?: any
   }
 }

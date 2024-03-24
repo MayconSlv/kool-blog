@@ -1,0 +1,8 @@
+query GetPosts {
+  getPosts {
+    content 
+    user {
+      name username email birthDate
+    }
+  }
+}
