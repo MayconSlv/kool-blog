@@ -7,6 +7,6 @@ export class PostEntity extends BaseColumnsEntity {
   @Column()
   content: string
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, { cascade: true })
   user: UserEntity
 }

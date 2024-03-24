@@ -7,7 +7,7 @@ import { CreateUserInputModel, UserModel } from '../model'
 export class CreateUserUseCase {
   constructor(private readonly userDataSource: UserDbDataSource) {}
 
-  async exec(input: CreateUserInputModel): Promise<UserModel> {
+  async execute(input: CreateUserInputModel): Promise<UserModel> {
     const userWithSameEmail = await this.userDataSource.findOneByEmail(
       input.email,
     )

@@ -17,6 +17,6 @@ export class UserResolver {
 
   @Mutation(() => User, { description: 'Cria um usuário' })
   createUser(@Arg('input') input: CreateUserInput): Promise<UserModel> {
-    return this.createUserUseCase.exec(input)
+    return this.createUserUseCase.execute(input)
   }
 }

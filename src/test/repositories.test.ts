@@ -4,13 +4,12 @@ import { Service } from 'typedi'
 
 @Service()
 export class Repositories {
-  userRepository = DBConnection.getRepository(UserEntity)
-  postRepository = DBConnection.getRepository(PostEntity)
-  commentRepository = DBConnection.getRepository(CommentEntity)
+  user = DBConnection.getRepository(UserEntity)
+  post = DBConnection.getRepository(PostEntity)
+  comment = DBConnection.getRepository(CommentEntity)
 
   async clear(): Promise<void> {
-    await this.userRepository.delete({})
-    await this.postRepository.delete({})
-    await this.commentRepository.delete({})
+    await DBConnection.query('DELETE FROM "post";')
+    await DBConnection.query('DELETE FROM "user";')
   }
 }
