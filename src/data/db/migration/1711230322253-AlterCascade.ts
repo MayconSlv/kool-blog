@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class AddNewsColumns1711186857054 implements MigrationInterface {
-  name = 'AddNewsColumns1711186857054'
+export class AlterCascade1711230322253 implements MigrationInterface {
+  name = 'AlterCascade1711230322253'
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
