@@ -16,4 +16,11 @@ export class PostDbDataSource {
   create(input: CreatePostDataInput): Promise<PostEntity> {
     return this.repository.save({ user: { id: input.userId }, ...input })
   }
+
+  find(): Promise<PostEntity[]> {
+    return this.repository
+      .createQueryBuilder('post')
+      .innerJoinAndSelect('post.user', 'user')
+      .getMany()
+  }
 }
