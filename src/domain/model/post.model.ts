@@ -10,3 +10,8 @@ export interface CreatePostInputModel {
   content: string
   username: string
 }
+
+export interface UpdatePostContentInputModel {
+  id: string
+  content: string
+}

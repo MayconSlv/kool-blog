@@ -1,4 +1,7 @@
-import { CreatePostInputModel } from '@domain/model/post.model'
+import {
+  CreatePostInputModel,
+  UpdatePostContentInputModel,
+} from '@domain/model/post.model'
 import { IsString } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
 
@@ -11,4 +14,15 @@ export class CreatePostInput implements CreatePostInputModel {
   @Field()
   @IsString()
   username: string
+}
+
+@InputType()
+export class UpdatePostInput implements UpdatePostContentInputModel {
+  @Field()
+  @IsString()
+  id: string
+
+  @Field()
+  @IsString()
+  content: string
 }
