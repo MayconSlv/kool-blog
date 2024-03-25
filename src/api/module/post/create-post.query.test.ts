@@ -1,12 +1,14 @@
 import { afterEach, before, describe, it } from 'mocha'
-import { Repositories } from '@test/repositories.test'
 import Container from 'typedi'
-import { MakeRequest } from '@test/make-request.test'
-import { TestServer } from '@test/test-server.test'
-import { Mutation } from '@test/mutation.test'
 import { expect } from 'chai'
 import { PostModel } from '@domain/model'
-import { createUser } from '@test/entity.seed.test'
+import {
+  createUser,
+  MakeRequest,
+  Mutation,
+  Repositories,
+  TestServer,
+} from '@test'
 
 type Response = { createPost: PostModel }
 
