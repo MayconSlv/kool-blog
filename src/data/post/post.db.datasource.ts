@@ -23,4 +23,12 @@ export class PostDbDataSource {
       .innerJoinAndSelect('post.user', 'user')
       .getMany()
   }
+
+  findOne(id: string): Promise<PostEntity | null> {
+    return this.repository.findOne({ where: { id } })
+  }
+
+  async delete(postId: string): Promise<void> {
+    this.repository.delete({ id: postId })
+  }
 }
