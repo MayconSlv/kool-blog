@@ -3,15 +3,7 @@ import Container from 'typedi'
 import { expect } from 'chai'
 import { PostModel } from '@domain/model'
 import { PostEntity, UserEntity } from '@data/db/entity'
-import {
-  createPost,
-  createUser,
-  MakeRequest,
-  Mutation,
-  Query,
-  Repositories,
-  TestServer,
-} from '@test'
+import { createPost, createUser, MakeRequest, Mutation, Query, Repositories, TestServer } from '@test'
 
 type Response = { updatePost: PostModel }
 
@@ -73,8 +65,6 @@ describe('GraphQL - Update a post - Mutation', async () => {
     }
 
     const response = await makeRequest.post<Response>(query, { input })
-    expect(response.body.errors[0])
-      .to.have.property('message')
-      .that.is.eq('Not found error')
+    expect(response.body.errors[0]).to.have.property('message').that.is.eq('Not found error')
   })
 })

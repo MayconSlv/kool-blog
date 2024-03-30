@@ -1,14 +1,7 @@
 import { afterEach, before, describe, it } from 'mocha'
 import Container from 'typedi'
 import { expect } from 'chai'
-import {
-  createPost,
-  createUser,
-  MakeRequest,
-  Mutation,
-  Repositories,
-  TestServer,
-} from '@test'
+import { createPost, createUser, MakeRequest, Mutation, Repositories, TestServer } from '@test'
 import { PostEntity, UserEntity } from '@data/db/entity'
 
 type Response = { deletePost: string }
@@ -33,10 +26,7 @@ describe('GraphQL - Get all posts - Query', async () => {
 
   beforeEach(async () => {
     user = await repositories.user.save(createUser())
-    postsDb = await repositories.post.save([
-      createPost({ user, content: 'post to delete' }),
-      createPost({ user }),
-    ])
+    postsDb = await repositories.post.save([createPost({ user, content: 'post to delete' }), createPost({ user })])
   })
 
   afterEach(async () => {
@@ -63,8 +53,6 @@ describe('GraphQL - Get all posts - Query', async () => {
       postId: invalidUuid,
     })
 
-    expect(response.body.errors[0])
-      .to.have.property('message')
-      .that.is.eq('Not found error')
+    expect(response.body.errors[0]).to.have.property('message').that.is.eq('Not found error')
   })
 })

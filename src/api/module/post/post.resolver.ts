@@ -3,11 +3,7 @@ import { Service } from 'typedi'
 import { Post } from './post.type'
 import { CreatePostInput, UpdatePostInput } from './post.input'
 import { PostModel } from '@domain/model/post.model'
-import {
-  CreatePostUseCase,
-  DeletePostUseCase,
-  GetAllPostUseCase,
-} from '@domain/post'
+import { CreatePostUseCase, DeletePostUseCase, GetAllPostUseCase } from '@domain/post'
 import { UpdatePostContentUseCase } from '@domain/post/update-post.use-case'
 
 @Service()

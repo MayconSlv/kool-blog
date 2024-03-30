@@ -13,8 +13,6 @@ async function server() {
 
   const server = new ApolloServer({ schema })
   DBConnection.initialize().then(() => console.log('[Database] Initialized.'))
-  await server
-    .listen()
-    .then(({ url }) => console.log(`[Server] Running on ${url}`))
+  await server.listen().then(({ url }) => console.log(`[Server] Running on ${url}`))
 }
 server()

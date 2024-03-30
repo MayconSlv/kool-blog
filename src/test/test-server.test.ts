@@ -21,9 +21,7 @@ export class TestServer {
 
   private async createApolloServer() {
     const schema = await buildSchema({
-      resolvers: [
-        join(__dirname, '..', 'api', 'module', '**', '*.resolver.ts'),
-      ],
+      resolvers: [join(__dirname, '..', 'api', 'module', '**', '*.resolver.ts')],
       container: Container,
     })
 

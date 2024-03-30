@@ -15,18 +15,14 @@ interface UpdatePostDataInput {
 
 @Service()
 export class PostDbDataSource {
-  private readonly repository: Repository<PostEntity> =
-    DBConnection.getRepository(PostEntity)
+  private readonly repository: Repository<PostEntity> = DBConnection.getRepository(PostEntity)
 
   create(input: CreatePostDataInput): Promise<PostEntity> {
     return this.repository.save({ user: { id: input.userId }, ...input })
   }
 
   find(): Promise<PostEntity[]> {
-    return this.repository
-      .createQueryBuilder('post')
-      .innerJoinAndSelect('post.user', 'user')
-      .getMany()
+    return this.repository.createQueryBuilder('post').innerJoinAndSelect('post.user', 'user').getMany()
   }
 
   findOne(id: string): Promise<PostEntity | null> {

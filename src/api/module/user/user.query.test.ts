@@ -53,9 +53,7 @@ describe('GraphQL - Create a user - Mutation', async () => {
     await makeRequest.post<Response>(mutation, { input })
 
     const response = await makeRequest.post<Response>(mutation, { input })
-    expect(response.body.errors[0])
-      .to.have.property('message')
-      .that.is.eq('email already exists.')
+    expect(response.body.errors[0]).to.have.property('message').that.is.eq('email already exists.')
   })
 
   it('should not be able to register a user with an invalid email', async () => {
@@ -65,8 +63,6 @@ describe('GraphQL - Create a user - Mutation', async () => {
         email: 'invalidemail',
       },
     })
-    expect(response.body.errors[0])
-      .to.have.property('message')
-      .that.is.eq('Argument Validation Error')
+    expect(response.body.errors[0]).to.have.property('message').that.is.eq('Argument Validation Error')
   })
 })

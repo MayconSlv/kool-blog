@@ -3,14 +3,7 @@ import Container from 'typedi'
 import { expect } from 'chai'
 import { PostModel } from '@domain/model'
 import { PostEntity, UserEntity } from '@data/db/entity'
-import {
-  createPost,
-  createUser,
-  MakeRequest,
-  Query,
-  Repositories,
-  TestServer,
-} from '@test'
+import { createPost, createUser, MakeRequest, Query, Repositories, TestServer } from '@test'
 
 type Response = { getPosts: PostModel[] }
 
@@ -34,10 +27,7 @@ describe('GraphQL - Get all posts - Query', async () => {
 
   beforeEach(async () => {
     user = await repositories.user.save(createUser())
-    postsDb = await repositories.post.save([
-      createPost({ user }),
-      createPost({ user }),
-    ])
+    postsDb = await repositories.post.save([createPost({ user }), createPost({ user })])
   })
 
   afterEach(async () => {

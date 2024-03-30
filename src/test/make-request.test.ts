@@ -13,11 +13,7 @@ interface RequestFields {
 }
 
 export class MakeRequest {
-  async post<T>(
-    query: any,
-    variables?: any,
-    expectedStatus?: 200,
-  ): Promise<HttpResponse<T>> {
+  async post<T>(query: any, variables?: any, expectedStatus?: 200): Promise<HttpResponse<T>> {
     if (query.kind === 'Document') {
       query = print(query)
     }

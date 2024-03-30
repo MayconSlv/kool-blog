@@ -2,13 +2,7 @@ import { afterEach, before, describe, it } from 'mocha'
 import Container from 'typedi'
 import { expect } from 'chai'
 import { PostModel } from '@domain/model'
-import {
-  createUser,
-  MakeRequest,
-  Mutation,
-  Repositories,
-  TestServer,
-} from '@test'
+import { createUser, MakeRequest, Mutation, Repositories, TestServer } from '@test'
 
 type Response = { createPost: PostModel }
 
@@ -66,8 +60,6 @@ describe('GraphQL - Create a post - Mutation', async () => {
       },
     })
 
-    expect(response.body.errors[0])
-      .to.have.property('message')
-      .that.is.eq('User not found.')
+    expect(response.body.errors[0]).to.have.property('message').that.is.eq('User not found.')
   })
 })

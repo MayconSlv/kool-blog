@@ -9,6 +9,7 @@ export class Repositories {
   comment = DBConnection.getRepository(CommentEntity)
 
   async clear(): Promise<void> {
+    await DBConnection.query('DELETE FROM "comment";')
     await DBConnection.query('DELETE FROM "post";')
     await DBConnection.query('DELETE FROM "user";')
   }

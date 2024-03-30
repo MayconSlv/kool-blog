@@ -3,8 +3,8 @@
 - [x] deve ser possivel criar posts
 - [x] deve ser possivel listar os posts
 - [x] deve ser possivel apagar um post
-- [ ] deve ser possivel editar o conteudo de um post
-- [ ] deve ser possivel comentar em um post
+- [x] deve ser possivel editar o conteudo de um post
+- [x] deve ser possivel comentar em um post
 - [ ] deve ser possivel apagar um comentario
 - [ ] deve ser possivel editar um comentario
 - [ ] deve ser possivel ver os detalhes de um post, com os comentários e texto completo

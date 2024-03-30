@@ -12,7 +12,7 @@ export function createUser(options: Partial<UserEntity> = {}): UserEntity {
 }
 
 export function createPost(opctions: Partial<PostEntity> = {}): PostEntity {
-  const defaultUser: Partial<UserEntity> = {
+  const user: Partial<UserEntity> = {
     name: 'John Doe',
     username: 'johndoe',
     email: 'johndoe@email.com',
@@ -24,5 +24,5 @@ export function createPost(opctions: Partial<PostEntity> = {}): PostEntity {
     content: 'lorem ipsum',
   }
 
-  return Object.assign(new PostEntity(), defaultPost, { defaultUser }, opctions)
+  return Object.assign(new PostEntity(), defaultPost, { user }, opctions)
 }

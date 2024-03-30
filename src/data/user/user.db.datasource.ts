@@ -13,8 +13,7 @@ interface CreateUserDataInput {
 
 @Service()
 export class UserDbDataSource {
-  private readonly repository: Repository<UserEntity> =
-    DBConnection.getRepository(UserEntity)
+  private readonly repository: Repository<UserEntity> = DBConnection.getRepository(UserEntity)
 
   findOneByEmail(email: string): Promise<UserEntity | null> {
     return this.repository.findOne({ where: { email } })
