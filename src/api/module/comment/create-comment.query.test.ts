@@ -12,7 +12,7 @@ import { CommentModel } from '@domain/model/comment.model'
 
 type Response = { createComment: CommentModel }
 
-describe.only('GraphQL - Create a comment - Mutation', async () => {
+describe('GraphQL - Create a comment - Mutation', async () => {
   let makeRequest: MakeRequest
   let testServer: TestServer
   let repositories: Repositories
@@ -60,7 +60,6 @@ describe.only('GraphQL - Create a comment - Mutation', async () => {
 
     const commentResponse = response.body.data.createComment
     const commentDb = await repositories.comment.findOneOrFail({ where: { post: { id: postDb.id } } })
-    console.log(postDb)
     checkComment(commentResponse, commentDb)
   })
 
