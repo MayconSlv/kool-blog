@@ -1,10 +1,9 @@
-import { CreateCommentUseCase } from '@domain/comment'
+import { CreateCommentUseCase, DeleteCommentUseCase, UpdateCommentUseCase } from '@domain/comment'
 import { CommentModel } from '@domain/model/comment.model'
 import { Arg, Mutation, Resolver } from 'type-graphql'
 import { Service } from 'typedi'
 import { Comment } from './comment.type'
-import { CreateCommentInput } from './comment.input'
-import { DeleteCommentUseCase } from '@domain/comment/delete-comment.use-case'
+import { CreateCommentInput, UpdateCommentInput } from './comment.input'
 
 @Service()
 @Resolver()
@@ -12,6 +11,7 @@ export class CommentResolver {
   constructor(
     private readonly createCommentUseCase: CreateCommentUseCase,
     private readonly deleteCommentUseCase: DeleteCommentUseCase,
+    private readonly updateCommentUseCase: UpdateCommentUseCase,
   ) {}
 
   @Mutation(() => Comment, { description: 'Cria um comentário em um post' })
@@ -22,5 +22,10 @@ export class CommentResolver {
   @Mutation(() => String, { description: 'Deleta um comentário' })
   deleteComment(@Arg('commentId') commentId: string): Promise<string> {
     return this.deleteCommentUseCase.execute(commentId)
+  }
+
+  @Mutation(() => Comment, { description: 'Atualiza um comentário' })
+  updateComment(@Arg('input') input: UpdateCommentInput): Promise<CommentModel> {
+    return this.updateCommentUseCase.execute(input)
   }
 }

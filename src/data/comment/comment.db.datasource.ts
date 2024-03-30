@@ -25,4 +25,17 @@ export class CommentDbDataSource {
   async delete(id: string): Promise<void> {
     await this.repository.delete({ id })
   }
+
+  async update(input: CommentModel): Promise<CommentModel> {
+    const { id, content } = input
+
+    await this.repository
+      .createQueryBuilder('comment')
+      .update(CommentEntity)
+      .set({ content })
+      .where('comment.id = :id', { id })
+      .execute()
+
+    return this.repository.findOneOrFail({ where: { id } })
+  }
 }
