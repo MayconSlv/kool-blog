@@ -17,4 +17,12 @@ export class CommentDbDataSource {
       content,
     })
   }
+
+  findOne(id: string): Promise<CommentModel | null> {
+    return this.repository.findOne({ where: { id } })
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.repository.delete({ id })
+  }
 }
