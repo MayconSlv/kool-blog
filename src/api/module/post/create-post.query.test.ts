@@ -45,9 +45,7 @@ describe('GraphQL - Create a post - Mutation', async () => {
     const response = await makeRequest.post<Response>(mutation, { input })
 
     const postRes = response.body.data.createPost
-    const postDb = await repositories.post.findOneOrFail({
-      where: { id: postRes.id },
-    })
+    const postDb = await repositories.post.findOneOrFail({ where: { id: postRes.id } })
     expect(postRes.content).to.be.eq(postDb.content)
     expect(postRes.id).to.be.deep.eq(postDb.id)
   })

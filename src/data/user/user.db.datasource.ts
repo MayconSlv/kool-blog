@@ -16,12 +16,12 @@ interface CreateUserDataInput {
 export class UserDbDataSource {
   private readonly repository: Repository<UserEntity> = DBConnection.getRepository(UserEntity)
 
-  findOneByEmail(email: string): Promise<UserModel | null> {
-    return this.repository.findOne({ where: { email } })
-  }
-
-  findByUsername(username: string): Promise<UserModel | null> {
-    return this.repository.findOne({ where: { username } })
+  findOne(usernameOrEmail: string): Promise<UserEntity | null> {
+    return this.repository
+      .createQueryBuilder('user')
+      .where('user.username = :username', { username: usernameOrEmail })
+      .orWhere('user.email = :email', { email: usernameOrEmail })
+      .getOne()
   }
 
   createUser(input: CreateUserDataInput): Promise<UserModel> {

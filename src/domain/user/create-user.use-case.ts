@@ -8,13 +8,13 @@ export class CreateUserUseCase {
   constructor(private readonly userDataSource: UserDbDataSource) {}
 
   async execute(input: CreateUserInputModel): Promise<UserModel> {
-    const userWithSameEmail = await this.userDataSource.findOneByEmail(input.email)
+    const userWithSameEmail = await this.userDataSource.findOne(input.email)
 
     if (userWithSameEmail) {
       throw new Error('email already exists.')
     }
 
-    const userWithSameUsername = await this.userDataSource.findByUsername(input.username)
+    const userWithSameUsername = await this.userDataSource.findOne(input.username)
     if (userWithSameUsername) {
       throw new Error('username already exists')
     }

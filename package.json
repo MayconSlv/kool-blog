@@ -20,6 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "4.3.9",
+    "@types/jsonwebtoken": "9.0.6",
     "@types/mocha": "10.0.6",
     "@types/node": "20.11.28",
     "@typescript-eslint/eslint-plugin": "7.3.1",
@@ -48,6 +49,7 @@
     "class-validator": "0.14.1",
     "dotenv": "16.4.5",
     "graphql": "15.3.0",
+    "jsonwebtoken": "9.0.2",
     "pg": "8.11.3",
     "reflect-metadata": "0.2.1",
     "tsconfig-paths": "4.2.0",

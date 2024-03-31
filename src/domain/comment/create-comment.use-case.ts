@@ -15,7 +15,7 @@ export class CreateCommentUseCase {
   async execute(input: CreateCommentInputModel): Promise<CommentModel> {
     const { content, postId, username } = input
 
-    const user = await this.userDataSource.findByUsername(username)
+    const user = await this.userDataSource.findOne(username)
     if (!user) {
       throw new Error('Not found error')
     }
