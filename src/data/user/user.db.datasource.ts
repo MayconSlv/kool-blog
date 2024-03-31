@@ -1,5 +1,6 @@
 import { DBConnection } from '@data/db/config'
 import { UserEntity } from '@data/db/entity'
+import { UserModel } from '@domain/model'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
 
@@ -15,15 +16,15 @@ interface CreateUserDataInput {
 export class UserDbDataSource {
   private readonly repository: Repository<UserEntity> = DBConnection.getRepository(UserEntity)
 
-  findOneByEmail(email: string): Promise<UserEntity | null> {
+  findOneByEmail(email: string): Promise<UserModel | null> {
     return this.repository.findOne({ where: { email } })
   }
 
-  findByUsername(username: string): Promise<UserEntity | null> {
+  findByUsername(username: string): Promise<UserModel | null> {
     return this.repository.findOne({ where: { username } })
   }
 
-  createUser(input: CreateUserDataInput): Promise<UserEntity> {
+  createUser(input: CreateUserDataInput): Promise<UserModel> {
     return this.repository.save(input)
   }
 }
