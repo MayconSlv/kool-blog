@@ -1,0 +1,5 @@
+mutation UpdateComment($input: UpdateCommentInput!) {
+  updateComment(input: $input) {
+    content id
+  }
+}

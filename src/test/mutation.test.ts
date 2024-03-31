@@ -7,4 +7,5 @@ export const Mutation = {
   updatePost: processImport('src/test/mutation/update-post.mutation.graphql'),
   createComment: processImport('src/test/mutation/create-comment.mutation.graphql'),
   deleteComment: processImport('src/test/mutation/delete-comment.mutation.graphql'),
+  updateComment: processImport('src/test/mutation/update-comment.mutation.graphql'),
 }

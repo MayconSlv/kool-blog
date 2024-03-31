@@ -4,31 +4,24 @@ import Container from 'typedi'
 import { MakeRequest } from '@test/make-request.test'
 import { TestServer } from '@test/test-server.test'
 import { Mutation } from '@test/mutation.test'
-import { UserModel } from '@domain/model'
 import { expect } from 'chai'
 import { CommentEntity, PostEntity, UserEntity } from '@data/db/entity'
-import { createPost, createUser } from '@test'
+import { createComment, createPost, createUser } from '@test'
 import { CommentModel } from '@domain/model/comment.model'
 import { checkComment } from '@test/checker.test'
 
-type Response = { createComment: CommentModel }
+type Response = { updateComment: CommentModel }
 
-describe('GraphQL - Create a comment - Mutation', async () => {
+describe('GraphQL - Update a comment - Mutation', async () => {
   let makeRequest: MakeRequest
   let testServer: TestServer
   let repositories: Repositories
 
   let postDb: PostEntity
   let userDb: UserEntity
-  let commentDb: CommentEntity[]
+  let comments: CommentEntity[]
 
-  const mutation = Mutation.createComment
-
-  const input = {
-    content: 'que post bacana',
-    postId: 'a28f9275-1ac4-4052-b77a-4807836e1435',
-    username: 'johndoe',
-  }
+  const mutation = Mutation.updateComment
 
   before(async () => {
     makeRequest = new MakeRequest()
@@ -39,8 +32,15 @@ describe('GraphQL - Create a comment - Mutation', async () => {
   })
 
   beforeEach(async () => {
-    postDb = await repositories.post.save(createPost())
     userDb = await repositories.user.save(createUser())
+    postDb = await repositories.post.save(createPost({ user: userDb }))
+
+    comments = [
+      { content: 'Excelente post! Muito informativo.' },
+      { content: 'Adorei ler isso. Ótimo trabalho!' },
+      { content: 'Que interessante! Nunca tinha pensado nisso antes.' },
+    ].map((comment) => createComment({ content: comment.content, user: userDb, post: postDb }))
+    await repositories.comment.save(comments)
   })
 
   afterEach(async () => {
@@ -51,16 +51,16 @@ describe('GraphQL - Create a comment - Mutation', async () => {
     await testServer.stop()
   })
 
-  it('should be able to comment in a post correctly', async () => {
+  it('should update a comment correctly', async () => {
     const response = await makeRequest.post<Response>(mutation, {
       input: {
-        ...input,
-        postId: postDb.id,
+        id: comments[0].id,
+        content: 'Excelente post!',
       },
     })
 
-    const commentResponse = response.body.data.createComment
-    const commentDb = await repositories.comment.findOneOrFail({ where: { post: { id: postDb.id } } })
-    checkComment(commentResponse, commentDb)
+    const updatedComment = response.body.data.updateComment
+    const updatedCommentDb = await repositories.comment.findOneOrFail({ where: { id: updatedComment.id } })
+    checkComment(updatedComment, updatedCommentDb)
   })
 })
