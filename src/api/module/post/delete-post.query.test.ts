@@ -37,7 +37,7 @@ describe('GraphQL - Get all posts - Query', async () => {
     await testServer.stop()
   })
 
-  it('should be able to fetch all posts', async () => {
+  it('should be able remove a post correctly', async () => {
     const response = await makeRequest.post<Response>(query, {
       postId: postsDb[0].id,
     })

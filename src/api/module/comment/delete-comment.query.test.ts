@@ -51,7 +51,7 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
     await testServer.stop()
   })
 
-  it('should be able to comment in a post correctly', async () => {
+  it('should remove a comment from a post correctly', async () => {
     const response = await makeRequest.post<Response>(mutation, {
       commentId: comments[0].id,
     })

@@ -41,7 +41,7 @@ describe('GraphQL - Create a post - Mutation', async () => {
     await testServer.stop()
   })
 
-  it('should be able to create a user correctly', async () => {
+  it('should be able to create a post correctly', async () => {
     const response = await makeRequest.post<Response>(mutation, { input })
 
     const postRes = response.body.data.createPost
