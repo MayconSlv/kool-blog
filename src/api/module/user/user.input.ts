@@ -1,4 +1,4 @@
-import { CreateUserInputModel } from '@domain/model'
+import { AuthenticateUserModel, CreateUserInputModel } from '@domain/model'
 import { IsDate, IsEmail, IsString } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
 
@@ -23,4 +23,15 @@ export class CreateUserInput implements CreateUserInputModel {
   @Field()
   @IsDate()
   birthDate: Date
+}
+
+@InputType()
+export class AuthenticateUser implements AuthenticateUserModel {
+  @Field()
+  @IsString()
+  usernameOrEmail: string
+
+  @Field()
+  @IsString()
+  password: string
 }

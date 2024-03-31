@@ -18,3 +18,8 @@ export interface UserModel {
   email: string
   birthDate: Date
 }
+
+export interface AuthenticatedUserModel {
+  user: UserModel
+  token: string
+}

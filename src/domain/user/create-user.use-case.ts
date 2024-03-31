@@ -9,7 +9,6 @@ export class CreateUserUseCase {
 
   async execute(input: CreateUserInputModel): Promise<UserModel> {
     const userWithSameEmail = await this.userDataSource.findOne(input.email)
-
     if (userWithSameEmail) {
       throw new Error('email already exists.')
     }
