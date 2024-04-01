@@ -18,18 +18,18 @@ export class CommentResolver {
   @Mutation(() => Comment, { description: 'Cria um comentário em um post' })
   @Authorized()
   createComment(@Arg('input') input: CreateCommentInput, @Ctx() context: ContextInterface): Promise<CommentModel> {
-    return this.createCommentUseCase.execute(input, context.userId)
+    return this.createCommentUseCase.execute(input, context.userId!)
   }
 
   @Mutation(() => String, { description: 'Deleta um comentário' })
   @Authorized()
   deleteComment(@Arg('commentId') commentId: string, @Ctx() context: ContextInterface): Promise<string> {
-    return this.deleteCommentUseCase.execute(commentId, context.userId)
+    return this.deleteCommentUseCase.execute(commentId, context.userId!)
   }
 
   @Mutation(() => Comment, { description: 'Atualiza um comentário' })
   @Authorized()
   updateComment(@Arg('input') input: UpdateCommentInput, @Ctx() context: ContextInterface): Promise<CommentModel> {
-    return this.updateCommentUseCase.execute(input, context.userId)
+    return this.updateCommentUseCase.execute(input, context.userId!)
   }
 }

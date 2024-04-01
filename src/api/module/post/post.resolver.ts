@@ -20,7 +20,7 @@ export class PostResolver {
   @Mutation(() => Post, { description: 'Cria um post' })
   @Authorized()
   createPost(@Arg('input') input: CreatePostInput, @Ctx() context: ContextInterface): Promise<PostModel> {
-    return this.createPostUseCase.execute(input, context.userId)
+    return this.createPostUseCase.execute(input, context.userId!)
   }
 
   @Query(() => [Post], { description: 'Listar todos os posts' })
@@ -31,12 +31,12 @@ export class PostResolver {
   @Mutation(() => String)
   @Authorized()
   deletePost(@Arg('postId') postId: string, @Ctx() context: ContextInterface): Promise<string> {
-    return this.deletePostUseCase.execute(postId, context.userId)
+    return this.deletePostUseCase.execute(postId, context.userId!)
   }
 
   @Mutation(() => Post)
   @Authorized()
   updatePost(@Arg('input') input: UpdatePostInput, @Ctx() context: ContextInterface): Promise<PostModel> {
-    return this.updatePostContentUseCase.execute(input, context.userId)
+    return this.updatePostContentUseCase.execute(input, context.userId!)
   }
 }

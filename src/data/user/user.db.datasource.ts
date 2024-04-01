@@ -24,6 +24,10 @@ export class UserDbDataSource {
       .getOne()
   }
 
+  findById(id: string): Promise<UserEntity | null> {
+    return this.repository.findOne({ where: { id } })
+  }
+
   createUser(input: CreateUserDataInput): Promise<UserModel> {
     return this.repository.save(input)
   }

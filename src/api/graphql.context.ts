@@ -1,24 +1,31 @@
 import { Request, Response } from 'express'
-import jwt, { JwtPayload } from 'jsonwebtoken'
-import { authenticatedUser } from './middleware/authenticated-user.middleware'
+import jwt from 'jsonwebtoken'
 
 export interface ContextInterface {
   token?: string
-  userId: string
+  userId?: string
 }
 
-interface ContextParameters {
+export interface ContextParameters {
   req: Request
   res: Response
 }
 
-interface DecodedToken extends JwtPayload {
-  sub?: string
-}
+export const context = async ({ req, res }: ContextParameters): Promise<ContextInterface> => {
+  let token: string | undefined
+  if (req.headers.authorization) {
+    token = req.headers.authorization.replace('Bearer ', '')
+  }
 
-export const context = ({ req, res }: ContextParameters): ContextInterface => {
-  const token = req.headers?.authorization?.replace('Bearer ', '')
-  const userId = authenticatedUser(token)
+  let userId: string | undefined
+  if (token) {
+    try {
+      const decodedToken = jwt.decode(token) as { sub?: string }
+      userId = decodedToken?.sub
+    } catch (error) {
+      throw new Error('error')
+    }
+  }
 
   return {
     token,
