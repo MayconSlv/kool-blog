@@ -7,10 +7,6 @@ export class CreatePostInput implements CreatePostInputModel {
   @Field()
   @IsString()
   content: string
-
-  @Field()
-  @IsString()
-  username: string
 }
 
 @InputType()
