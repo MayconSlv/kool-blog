@@ -10,8 +10,8 @@ export class CreatePostUseCase {
     private readonly userDataSource: UserDbDataSource,
   ) {}
 
-  async execute(input: CreatePostInputModel): Promise<PostModel> {
-    const user = await this.userDataSource.findOne(input.username)
+  async execute(input: CreatePostInputModel, userId: string): Promise<PostModel> {
+    const user = await this.userDataSource.findOne(userId)
     if (!user) {
       throw new Error('User not found.')
     }

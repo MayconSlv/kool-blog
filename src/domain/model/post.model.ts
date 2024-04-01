@@ -8,7 +8,6 @@ export interface PostModel {
 
 export interface CreatePostInputModel {
   content: string
-  username: string
 }
 
 export interface UpdatePostContentInputModel {

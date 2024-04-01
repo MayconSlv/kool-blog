@@ -4,16 +4,14 @@ import jwt from 'jsonwebtoken'
 import { AuthChecker } from 'type-graphql'
 
 export const ValidateAuthorizationToken: AuthChecker<ContextInterface> = ({ context }): boolean => {
-  const authHeader = context.token
-  if (!authHeader) {
-    throw new Error('sem token ')
+  if (!context.token) {
+    throw new Error('token not proved')
   }
 
-  const [, token] = authHeader.split(' ')
   try {
-    jwt.verify(token, Env.JWT_SECRET_KEY)
+    jwt.verify(context.token, Env.JWT_SECRET_KEY)
   } catch (error) {
-    throw new Error('token invalido')
+    throw new Error('invalid token')
   }
 
   return true
