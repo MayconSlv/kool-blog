@@ -14,7 +14,7 @@ export class AuthenticateUserUseCase {
 
     const user = await this.userDataSource.findOne(usernameOrEmail)
     if (!user) {
-      throw new Error('Invalid credentials error')
+      throw new Error('invalid credentials error')
     }
 
     const doesPasswordMatch = await compare(password, user.passwordHash)
