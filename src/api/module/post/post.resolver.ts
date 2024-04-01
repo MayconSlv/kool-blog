@@ -28,11 +28,13 @@ export class PostResolver {
   }
 
   @Mutation(() => String)
+  @Authorized()
   deletePost(@Arg('postId') postId: string): Promise<string> {
     return this.deletePostUseCase.execute(postId)
   }
 
   @Mutation(() => Post)
+  @Authorized()
   updatePost(@Arg('input') input: UpdatePostInput): Promise<PostModel> {
     return this.updatePostContentUseCase.execute(input)
   }

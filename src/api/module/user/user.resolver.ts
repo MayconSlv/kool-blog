@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql'
 import { Service } from 'typedi'
 import { AuthenticateUser, CreateUserInput } from './user.input'
 import { AuthenticatedUser, User } from './user.type'
@@ -20,6 +20,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User, { description: 'Cria um usuário' })
+  @Authorized()
   createUser(@Arg('input') input: CreateUserInput): Promise<UserModel> {
     return this.createUserUseCase.execute(input)
   }

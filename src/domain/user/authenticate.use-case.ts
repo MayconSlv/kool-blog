@@ -22,9 +22,15 @@ export class AuthenticateUserUseCase {
       throw new Error('invalid credentials error')
     }
 
-    const token = jwt.sign({}, Env.JWT_SECRET_KEY, {
-      expiresIn: '3d',
-    })
+    const token = jwt.sign(
+      {
+        sub: user.id,
+      },
+      Env.JWT_SECRET_KEY,
+      {
+        expiresIn: '3d',
+      },
+    )
 
     return {
       user,
