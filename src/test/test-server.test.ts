@@ -1,8 +1,10 @@
+import { ValidateAuthorizationToken } from '@api/middleware'
 import { DBConnection } from '@data/db/config'
 import { ApolloServer } from 'apollo-server'
 import { join } from 'path'
 import { buildSchema } from 'type-graphql'
 import Container from 'typedi'
+import { context } from '@api/graphql.context'
 
 export class TestServer {
   private server: ApolloServer
@@ -23,8 +25,9 @@ export class TestServer {
     const schema = await buildSchema({
       resolvers: [join(__dirname, '..', 'api', 'module', '**', '*.resolver.ts')],
       container: Container,
+      authChecker: ValidateAuthorizationToken,
     })
 
-    return new ApolloServer({ schema })
+    return new ApolloServer({ schema, context })
   }
 }

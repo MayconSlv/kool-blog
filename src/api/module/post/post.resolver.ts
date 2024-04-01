@@ -30,13 +30,13 @@ export class PostResolver {
 
   @Mutation(() => String)
   @Authorized()
-  deletePost(@Arg('postId') postId: string): Promise<string> {
-    return this.deletePostUseCase.execute(postId)
+  deletePost(@Arg('postId') postId: string, @Ctx() context: ContextInterface): Promise<string> {
+    return this.deletePostUseCase.execute(postId, context.userId)
   }
 
   @Mutation(() => Post)
   @Authorized()
-  updatePost(@Arg('input') input: UpdatePostInput): Promise<PostModel> {
-    return this.updatePostContentUseCase.execute(input)
+  updatePost(@Arg('input') input: UpdatePostInput, @Ctx() context: ContextInterface): Promise<PostModel> {
+    return this.updatePostContentUseCase.execute(input, context.userId)
   }
 }

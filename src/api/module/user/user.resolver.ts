@@ -14,13 +14,7 @@ export class UserResolver {
     private readonly authenticateUserUseCase: AuthenticateUserUseCase,
   ) {}
 
-  @Query(() => String)
-  helloWorld() {
-    return 'hello world'
-  }
-
   @Mutation(() => User, { description: 'Cria um usuário' })
-  @Authorized()
   createUser(@Arg('input') input: CreateUserInput): Promise<UserModel> {
     return this.createUserUseCase.execute(input)
   }

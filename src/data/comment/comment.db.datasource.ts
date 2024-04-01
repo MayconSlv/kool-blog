@@ -8,17 +8,17 @@ import { Repository } from 'typeorm'
 export class CommentDbDataSource {
   private readonly repository: Repository<CommentEntity> = DBConnection.getRepository(CommentEntity)
 
-  create(input: CreateCommentInputModel): Promise<CommentModel> {
-    const { postId, username, content } = input
+  create(input: CreateCommentInputModel, userId: string): Promise<CommentModel> {
+    const { postId, content } = input
 
     return this.repository.save({
       post: { id: postId },
-      user: { username },
+      user: { id: userId },
       content,
     })
   }
 
-  findOne(id: string): Promise<CommentModel | null> {
+  findOne(id: string): Promise<CommentEntity | null> {
     return this.repository.findOne({ where: { id } })
   }
 
