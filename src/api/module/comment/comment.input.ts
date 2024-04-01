@@ -11,10 +11,6 @@ export class CreateCommentInput implements CreateCommentInputModel {
   @Field()
   @IsString()
   postId: string
-
-  @Field()
-  @IsString()
-  username: string
 }
 
 @InputType()

@@ -12,10 +12,10 @@ export class CreateCommentUseCase {
     private readonly postDataSource: PostDbDataSource,
   ) {}
 
-  async execute(input: CreateCommentInputModel): Promise<CommentModel> {
-    const { content, postId, username } = input
+  async execute(input: CreateCommentInputModel, userId: string): Promise<CommentModel> {
+    const { content, postId } = input
 
-    const user = await this.userDataSource.findOne(username)
+    const user = await this.userDataSource.findOne(userId)
     if (!user) {
       throw new Error('Not found error')
     }
@@ -25,6 +25,6 @@ export class CreateCommentUseCase {
       throw new Error('Not found error')
     }
 
-    return this.commentDataSource.create({ content, postId, username })
+    return this.commentDataSource.create({ content, postId }, userId)
   }
 }

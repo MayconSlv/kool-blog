@@ -6,10 +6,14 @@ import { Service } from 'typedi'
 export class UpdateCommentUseCase {
   constructor(private readonly commentDataSource: CommentDbDataSource) {}
 
-  async execute(input: CommentModel): Promise<CommentModel> {
+  async execute(input: CommentModel, userId: string): Promise<CommentModel> {
     const comment = await this.commentDataSource.findOne(input.id)
     if (!comment) {
       throw new Error('Not found error')
+    }
+
+    if (comment.user.id !== userId) {
+      throw new Error('unauthorized')
     }
 
     return this.commentDataSource.update(input)
