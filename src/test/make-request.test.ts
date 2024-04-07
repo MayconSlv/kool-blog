@@ -10,22 +10,32 @@ interface HttpResponse<T> {
 
 interface RequestFields {
   body?: Record<string, unknown>
+  headers?: Record<string, string>
 }
 
 export class MakeRequest {
-  async post<T>(query: any, variables?: any, expectedStatus?: 200): Promise<HttpResponse<T>> {
+  private readonly commonHeaders: Record<string, string> = { 'Content-Type': 'application/json' }
+
+  async post<T>(
+    query: any,
+    variables?: any,
+    expectedStatus?: 200,
+    headers?: Record<string, string>,
+  ): Promise<HttpResponse<T>> {
+    headers = headers ? { ...this.commonHeaders, ...headers } : { ...this.commonHeaders }
+
     if (query.kind === 'Document') {
       query = print(query)
     }
-
-    return this.request({ body: { query, variables } })
+    return this.request({ body: { query, variables }, headers })
   }
 
-  private async request<T>({ body }: RequestFields, expectedStatus = 200) {
+  private async request<T>({ body, headers }: RequestFields, expectedStatus = 200) {
     const response = await axios.request<T>({
       method: 'POST',
       url: 'http://localhost:4000',
       data: body,
+      headers,
       validateStatus: () => true,
     })
 
