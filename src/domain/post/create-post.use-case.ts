@@ -10,10 +10,10 @@ export class CreatePostUseCase {
     private readonly userDataSource: UserDbDataSource,
   ) {}
 
-  async execute(input: CreatePostInputModel, userId: string): Promise<PostModel> {
+  async execute(input: CreatePostInputModel): Promise<PostModel> {
     return this.postDataSource.create({
       content: input.content,
-      userId,
+      userId: input.userId,
     })
   }
 }

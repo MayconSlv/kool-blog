@@ -6,8 +6,6 @@ export class DeletePostUseCase {
   constructor(private readonly postDataSource: PostDbDataSource) {}
 
   async execute(id: string, userId: string): Promise<string> {
-    await this.postDataSource.delete(id)
-
     const post = await this.postDataSource.findOne(id)
     if (!post) {
       throw new Error('Not found error')
@@ -17,6 +15,7 @@ export class DeletePostUseCase {
       throw new Error('unauthoized')
     }
 
+    await this.postDataSource.delete(id)
     return id
   }
 }

@@ -27,7 +27,11 @@ export class PostDbDataSource {
   }
 
   findOne(id: string): Promise<PostModel | null> {
-    return this.repository.findOne({ where: { id } })
+    return this.repository
+      .createQueryBuilder('post')
+      .innerJoinAndSelect('post.user', 'user')
+      .where('post.id = :id', { id })
+      .getOne()
   }
 
   async delete(postId: string): Promise<void> {

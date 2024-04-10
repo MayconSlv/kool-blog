@@ -2,6 +2,7 @@ import { UserModel } from './user.model'
 
 export interface CreatePostInputModel {
   content: string
+  userId: string
 }
 
 export interface UpdatePostContentInputModel {

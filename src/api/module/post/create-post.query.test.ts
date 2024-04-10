@@ -6,6 +6,7 @@ import { createUser, MakeRequest, Mutation, Repositories, TestServer } from '@te
 import jwt from 'jsonwebtoken'
 import { UserEntity } from '@data/db/entity'
 import { Env } from '@env'
+import { authenticateUser } from '@test/authenticate-user.test'
 
 type Response = { createPost: PostModel }
 
@@ -35,16 +36,7 @@ describe('GraphQL - Create a post - Mutation', async () => {
 
   beforeEach(async () => {
     user = await repositories.user.save(createUser())
-    const jwtToken = jwt.sign(
-      {
-        sub: user.id,
-      },
-      Env.JWT_SECRET_KEY,
-      {
-        expiresIn: '1h',
-      },
-    )
-    token = `Bearer ${jwtToken}`
+    token = authenticateUser(user)
   })
 
   afterEach(async () => {
@@ -56,18 +48,15 @@ describe('GraphQL - Create a post - Mutation', async () => {
   })
 
   it('should be able to create a post correctly', async () => {
-    const response = await makeRequest.post<Response>(mutation, { input }, 200, { Authorization: token })
+    const response = await makeRequest.post<Response>(mutation, { input }, 200, { authorization: `Bearer ${token}` })
 
     const postResponse = response.body.data.createPost
     const postDatabase = await repositories.post.findOne({ where: { id: postResponse.id } })
-    expect(postResponse).to.be.deep.eq({
-      content: postDatabase?.content,
-      id: postDatabase?.id,
-    })
+    expect(postResponse).to.be.deep.eq({ content: postDatabase?.content, id: postDatabase?.id })
   })
 
   it('shoult not be able to create a post with a unauthorized user', async () => {
-    const response = await makeRequest.post(mutation, { input }, 200, { authorization: 'invalid-token' })
+    const response = await makeRequest.post(mutation, { input }, 200, { authorization: 'Bearer invalid-token' })
 
     expect(response.body.errors[0]).to.have.property('message').that.is.eq('invalid token')
   })

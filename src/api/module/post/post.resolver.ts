@@ -20,7 +20,7 @@ export class PostResolver {
   @Mutation(() => Post, { description: 'Cria um post' })
   @Authorized()
   createPost(@Arg('input') input: CreatePostInput, @Ctx() context: ContextInterface): Promise<PostModel> {
-    return this.createPostUseCase.execute(input, context.userId!)
+    return this.createPostUseCase.execute({ ...input, userId: context.userId! })
   }
 
   @Query(() => [Post], { description: 'Listar todos os posts' })
