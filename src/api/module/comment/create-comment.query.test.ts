@@ -10,6 +10,7 @@ import { CommentEntity, PostEntity, UserEntity } from '@data/db/entity'
 import { createPost, createUser } from '@test'
 import { CommentModel } from '@domain/model/comment.model'
 import { checkComment } from '@test/checker.test'
+import { authenticateUser } from '@test/authenticate-user.test'
 
 type Response = { createComment: CommentModel }
 
@@ -20,15 +21,9 @@ describe('GraphQL - Create a comment - Mutation', async () => {
 
   let postDb: PostEntity
   let userDb: UserEntity
-  let commentDb: CommentEntity[]
+  let token: string
 
   const mutation = Mutation.createComment
-
-  const input = {
-    content: 'que post bacana',
-    postId: 'a28f9275-1ac4-4052-b77a-4807836e1435',
-    username: 'johndoe',
-  }
 
   before(async () => {
     makeRequest = new MakeRequest()
@@ -39,8 +34,9 @@ describe('GraphQL - Create a comment - Mutation', async () => {
   })
 
   beforeEach(async () => {
-    postDb = await repositories.post.save(createPost())
     userDb = await repositories.user.save(createUser())
+    postDb = await repositories.post.save(createPost({ user: userDb }))
+    token = authenticateUser(userDb)
   })
 
   afterEach(async () => {
@@ -52,15 +48,28 @@ describe('GraphQL - Create a comment - Mutation', async () => {
   })
 
   it('should be able to comment in a post correctly', async () => {
-    const response = await makeRequest.post<Response>(mutation, {
-      input: {
-        ...input,
-        postId: postDb.id,
-      },
-    })
+    const input = {
+      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      postId: postDb.id,
+    }
+
+    const response = await makeRequest.post<Response>(mutation, { input }, 200, { authorization: `Bearer ${token}` })
 
     const commentResponse = response.body.data.createComment
     const commentDb = await repositories.comment.findOneOrFail({ where: { post: { id: postDb.id } } })
     checkComment(commentResponse, commentDb)
+  })
+
+  it('should return a unauthorized error if user is using a invalid token', async () => {
+    const input = {
+      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      postId: postDb.id,
+    }
+
+    const response = await makeRequest.post<Response>(mutation, { input }, 200, {
+      authorization: `Bearer invalid-token`,
+    })
+
+    expect(response.body.errors[0]).to.have.property('message').that.is.eq('invalid token')
   })
 })

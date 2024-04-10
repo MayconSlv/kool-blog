@@ -8,8 +8,8 @@ import { Repository } from 'typeorm'
 export class CommentDbDataSource {
   private readonly repository: Repository<CommentEntity> = DBConnection.getRepository(CommentEntity)
 
-  create(input: CreateCommentInputModel, userId: string): Promise<CommentModel> {
-    const { postId, content } = input
+  create(input: CreateCommentInputModel): Promise<CommentModel> {
+    const { postId, content, userId } = input
 
     return this.repository.save({
       post: { id: postId },
@@ -19,7 +19,11 @@ export class CommentDbDataSource {
   }
 
   findOne(id: string): Promise<CommentEntity | null> {
-    return this.repository.findOne({ where: { id } })
+    return this.repository
+      .createQueryBuilder('comment')
+      .innerJoinAndSelect('comment.user', 'user')
+      .where('comment.id = :id', { id })
+      .getOne()
   }
 
   async delete(id: string): Promise<void> {

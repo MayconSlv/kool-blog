@@ -38,6 +38,7 @@ export class MakeRequest {
       headers,
       validateStatus: () => true,
     })
+
     return { body: response.data }
   }
 }

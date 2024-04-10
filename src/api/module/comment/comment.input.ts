@@ -3,7 +3,7 @@ import { IsString, IsUUID } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
 
 @InputType()
-export class CreateCommentInput implements CreateCommentInputModel {
+export class CreateCommentInput {
   @Field()
   @IsString()
   content: string

@@ -7,6 +7,7 @@ import { Mutation } from '@test/mutation.test'
 import { expect } from 'chai'
 import { CommentEntity, PostEntity, UserEntity } from '@data/db/entity'
 import { createComment, createPost, createUser } from '@test'
+import { authenticateUser } from '@test/authenticate-user.test'
 
 type Response = { deleteComment: string }
 
@@ -18,6 +19,7 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
   let postDb: PostEntity
   let userDb: UserEntity
   let comments: CommentEntity[]
+  let token: string
 
   const mutation = Mutation.deleteComment
 
@@ -32,6 +34,7 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
   beforeEach(async () => {
     userDb = await repositories.user.save(createUser())
     postDb = await repositories.post.save(createPost({ user: userDb }))
+    token = authenticateUser(userDb)
 
     comments = [
       { content: 'Excelente post! Muito informativo.' },
@@ -52,8 +55,8 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
   })
 
   it('should remove a comment from a post correctly', async () => {
-    const response = await makeRequest.post<Response>(mutation, {
-      commentId: comments[0].id,
+    const response = await makeRequest.post<Response>(mutation, { commentId: comments[0].id }, 200, {
+      authorization: `Bearer ${token}`,
     })
 
     const deletedCommentId = response.body.data.deleteComment
@@ -65,10 +68,18 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
   it('should not be able to delete a comment with a invalid ID', async () => {
     const invalidID = '123e4567-e89b-12d3-a456-426614174000'
 
-    const response = await makeRequest.post<Response>(mutation, {
-      commentId: invalidID,
+    const response = await makeRequest.post<Response>(mutation, { commentId: invalidID }, 200, {
+      authorization: `Bearer ${token}`,
     })
 
     expect(response.body.errors[0]).to.have.property('message').that.is.eq('not found error')
+  })
+
+  it('should return a unauthorized error if user is using a invalid token', async () => {
+    const response = await makeRequest.post<Response>(mutation, { commentId: comments[0].id }, 200, {
+      authorization: `Bearer invalid-token`,
+    })
+
+    expect(response.body.errors[0]).to.have.property('message').that.is.eq('invalid token')
   })
 })
