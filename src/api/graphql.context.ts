@@ -12,23 +12,20 @@ export interface ContextParameters {
 }
 
 export const context = async ({ req, res }: ContextParameters): Promise<ContextInterface> => {
-  let token: string | undefined
-  if (req.headers.authorization) {
-    token = req.headers.authorization.replace('Bearer ', '')
-  }
+  const authorizationHeader = req.headers.authorization || ''
+  const [, token] = authorizationHeader.split(' ')
 
-  let userId: string | undefined
-  if (token) {
-    try {
-      const decodedToken = jwt.decode(token) as { sub?: string }
-      userId = decodedToken?.sub
-    } catch (error) {
-      throw new Error('error')
-    }
-  }
+  const userId = getUserByToken(token)
 
   return {
     token,
     userId,
   }
+}
+
+function getUserByToken(token: string): string | undefined {
+  const decodedToken = jwt.decode(token, { complete: true })
+  const userId = decodedToken?.payload.sub
+
+  return userId?.toString()
 }
