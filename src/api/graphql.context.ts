@@ -6,6 +6,11 @@ export interface ContextInterface {
   userId?: string
 }
 
+export interface AuthorizedContextInterface {
+  token: string
+  userId: string
+}
+
 export interface ContextParameters {
   req: Request
   res: Response

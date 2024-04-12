@@ -5,7 +5,7 @@ import { CreatePostInput, UpdatePostInput } from './post.input'
 import { PostModel } from '@domain/model/post.model'
 import { CreatePostUseCase, DeletePostUseCase, GetAllPostUseCase } from '@domain/post'
 import { UpdatePostContentUseCase } from '@domain/post/update-post.use-case'
-import { ContextInterface } from '@api/graphql.context'
+import { AuthorizedContextInterface } from '@api/graphql.context'
 
 @Service()
 @Resolver()
@@ -19,8 +19,8 @@ export class PostResolver {
 
   @Mutation(() => Post, { description: 'Cria um post' })
   @Authorized()
-  createPost(@Arg('input') input: CreatePostInput, @Ctx() context: ContextInterface): Promise<PostModel> {
-    return this.createPostUseCase.execute({ ...input, userId: context.userId! })
+  createPost(@Arg('input') input: CreatePostInput, @Ctx() context: AuthorizedContextInterface): Promise<PostModel> {
+    return this.createPostUseCase.execute({ ...input, userId: context.userId })
   }
 
   @Query(() => [Post], { description: 'Listar todos os posts' })
@@ -30,13 +30,13 @@ export class PostResolver {
 
   @Mutation(() => String)
   @Authorized()
-  deletePost(@Arg('postId') postId: string, @Ctx() context: ContextInterface): Promise<string> {
-    return this.deletePostUseCase.execute(postId, context.userId!)
+  deletePost(@Arg('postId') postId: string, @Ctx() context: AuthorizedContextInterface): Promise<string> {
+    return this.deletePostUseCase.execute(postId, context.userId)
   }
 
   @Mutation(() => Post)
   @Authorized()
-  updatePost(@Arg('input') input: UpdatePostInput, @Ctx() context: ContextInterface): Promise<PostModel> {
-    return this.updatePostContentUseCase.execute(input, context.userId!)
+  updatePost(@Arg('input') input: UpdatePostInput, @Ctx() context: AuthorizedContextInterface): Promise<PostModel> {
+    return this.updatePostContentUseCase.execute(input, context.userId)
   }
 }
