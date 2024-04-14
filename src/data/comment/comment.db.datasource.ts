@@ -1,6 +1,6 @@
 import { DBConnection } from '@data/db/config'
 import { CommentEntity } from '@data/db/entity'
-import { CommentModel, CreateCommentInputModel } from '@domain/model/comment.model'
+import { CommentModel, CreateCommentInputModel, UpdateCommentModel } from '@domain/model/comment.model'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
 
@@ -30,7 +30,7 @@ export class CommentDbDataSource {
     await this.repository.delete({ id })
   }
 
-  async update(input: CommentModel): Promise<CommentModel> {
+  async update(input: UpdateCommentModel): Promise<CommentModel> {
     const { id, content } = input
 
     await this.repository

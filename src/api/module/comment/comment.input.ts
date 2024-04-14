@@ -1,4 +1,4 @@
-import { CommentModel, CreateCommentInputModel } from '@domain/model/comment.model'
+import { CommentModel, CreateCommentInputModel, UpdateCommentModel } from '@domain/model/comment.model'
 import { IsString, IsUUID } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
 
@@ -14,7 +14,7 @@ export class CreateCommentInput {
 }
 
 @InputType()
-export class UpdateCommentInput implements CommentModel {
+export class UpdateCommentInput implements UpdateCommentModel {
   @Field()
   @IsUUID()
   @IsString()
