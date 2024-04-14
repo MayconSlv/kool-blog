@@ -1,11 +1,12 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { Service } from 'typedi'
-import { Post } from './post.type'
+import { DetailedPost, Post } from './post.type'
 import { CreatePostInput, UpdatePostInput } from './post.input'
-import { PostModel } from '@domain/model/post.model'
+import { DetailedPostModel, PostModel } from '@domain/model/post.model'
 import { CreatePostUseCase, DeletePostUseCase, GetAllPostUseCase } from '@domain/post'
 import { UpdatePostContentUseCase } from '@domain/post/update-post.use-case'
 import { AuthorizedContextInterface } from '@api/graphql.context'
+import { GetSpecificPostUseCase } from '@domain/post/get-specific-post.use-case'
 
 @Service()
 @Resolver()
@@ -15,6 +16,7 @@ export class PostResolver {
     private readonly getPostsUseCase: GetAllPostUseCase,
     private readonly deletePostUseCase: DeletePostUseCase,
     private readonly updatePostContentUseCase: UpdatePostContentUseCase,
+    private readonly getSpecificPostUseCase: GetSpecificPostUseCase,
   ) {}
 
   @Mutation(() => Post, { description: 'Cria um post' })
@@ -38,5 +40,10 @@ export class PostResolver {
   @Authorized()
   updatePost(@Arg('input') input: UpdatePostInput, @Ctx() context: AuthorizedContextInterface): Promise<PostModel> {
     return this.updatePostContentUseCase.execute(input, context.userId)
+  }
+
+  @Query(() => DetailedPost, { description: 'Detalhes de um post' })
+  getPost(@Arg('postId') postId: string): Promise<DetailedPostModel> {
+    return this.getSpecificPostUseCase.execute(postId)
   }
 }

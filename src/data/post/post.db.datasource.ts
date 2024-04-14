@@ -1,6 +1,6 @@
 import { DBConnection } from '@data/db/config'
 import { PostEntity } from '@data/db/entity'
-import { PostModel } from '@domain/model'
+import { DetailedPostModel, PostModel } from '@domain/model'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
 
@@ -30,6 +30,16 @@ export class PostDbDataSource {
     return this.repository
       .createQueryBuilder('post')
       .innerJoinAndSelect('post.user', 'user')
+      .where('post.id = :id', { id })
+      .getOne()
+  }
+
+  findOneWithComments(id: string): Promise<DetailedPostModel | null> {
+    return this.repository
+      .createQueryBuilder('post')
+      .innerJoinAndSelect('post.user', 'user')
+      .innerJoinAndSelect('post.comments', 'comments')
+      .innerJoinAndSelect('comments.user', 'userComment')
       .where('post.id = :id', { id })
       .getOne()
   }
