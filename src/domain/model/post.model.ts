@@ -1,3 +1,4 @@
+import { CommentModel } from './comment.model'
 import { UserModel } from './user.model'
 
 export interface CreatePostInputModel {
@@ -14,4 +15,8 @@ export interface PostModel {
   id: string
   content: string
   user: UserModel
+}
+
+export interface DetailedPostModel extends PostModel {
+  comments: CommentModel[]
 }
