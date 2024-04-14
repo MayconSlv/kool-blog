@@ -12,7 +12,7 @@
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "start": "npm run build && node -r ./tsconfig-paths-dist.js dist/api/index.js",
-    "start:dev": "ts-node -r tsconfig-paths/register src/api/index.ts",
+    "start:dev": "tsc-watch --onSuccess \"node -r ./tsconfig-paths-dist.js dist/api/index.js --inspect\" ",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register --exit 'src/**/*.test.ts' --dotenv dotenv_config_path=.env.test"
   },
   "keywords": [],
