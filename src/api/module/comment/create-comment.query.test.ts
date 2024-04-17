@@ -54,7 +54,6 @@ describe('GraphQL - Create a comment - Mutation', async () => {
     }
 
     const response = await makeRequest.post<Response>(mutation, { input }, 200, { authorization: `Bearer ${token}` })
-
     const commentResponse = response.body.data.createComment
     const commentDb = await repositories.comment.findOneOrFail({ where: { post: { id: postDb.id } } })
     checkComment(commentResponse, commentDb)

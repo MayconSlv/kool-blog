@@ -3,9 +3,7 @@ import Container from 'typedi'
 import { expect } from 'chai'
 import { PostModel } from '@domain/model'
 import { createUser, MakeRequest, Mutation, Repositories, TestServer } from '@test'
-import jwt from 'jsonwebtoken'
 import { UserEntity } from '@data/db/entity'
-import { Env } from '@env'
 import { authenticateUser } from '@test/authenticate-user.test'
 
 type Response = { createPost: PostModel }

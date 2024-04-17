@@ -66,9 +66,7 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
   })
 
   it('should not be able to delete a comment with a invalid ID', async () => {
-    const invalidID = '123e4567-e89b-12d3-a456-426614174000'
-
-    const response = await makeRequest.post<Response>(mutation, { commentId: invalidID }, 200, {
+    const response = await makeRequest.post<Response>(mutation, { commentId: '000' }, 200, {
       authorization: `Bearer ${token}`,
     })
 

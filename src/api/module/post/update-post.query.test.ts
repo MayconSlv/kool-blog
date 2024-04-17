@@ -63,7 +63,7 @@ describe('GraphQL - Update a post - Mutation', async () => {
 
   it('should return a not found error if the ID is wrong', async () => {
     const input = {
-      id: 'f1b539a0-9f44-4f22-aebe-936c499ed9ff',
+      id: '000',
       content: 'Post content after update',
     }
 

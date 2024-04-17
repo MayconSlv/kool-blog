@@ -7,5 +7,5 @@
 - [x] deve ser possivel comentar em um post
 - [x] deve ser possivel apagar um comentario
 - [x] deve ser possivel editar um comentario
-- [ ] deve ser possivel ver os detalhes de um post, com os comentários e texto completo
+- [x] deve ser possivel ver os detalhes de um post, com os comentários e texto completo
 - [ ] deve ser possivel atualizar o nome e username da conta

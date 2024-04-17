@@ -79,7 +79,7 @@ describe('GraphQL - Update a comment - Mutation', async () => {
       mutation,
       {
         input: {
-          id: '4123e849-1175-49d8-a3f6-f338bab4ff33',
+          id: '000',
           content: 'Excelente post!',
         },
       },

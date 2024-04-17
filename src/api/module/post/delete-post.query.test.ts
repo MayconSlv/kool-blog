@@ -50,9 +50,7 @@ describe('GraphQL - Delete a post - Query', async () => {
   })
 
   it('should return a not found error if pass a wrong ID', async () => {
-    const invalidUuid = '4123e849-1175-49d8-a3f6-f338bab4ff33'
-
-    const response = await makeRequest.post<Response>(query, { postId: invalidUuid }, 200, {
+    const response = await makeRequest.post<Response>(query, { postId: '000' }, 200, {
       authorization: `Bearer ${token}`,
     })
 
