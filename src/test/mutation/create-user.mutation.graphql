@@ -1,5 +1,5 @@
 mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
-    name email username birthDate id
+    name email username id
   }
 }
