@@ -1,0 +1,20 @@
+query GetPost($postId: String!) {
+  getPost(postId: $postId) {
+    id 
+    content
+    user {
+      id 
+      name
+      username
+      email
+    }
+    comments {
+      id 
+      content
+      user {
+        name
+        username 
+      }
+    }
+  }
+}
