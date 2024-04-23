@@ -37,9 +37,9 @@ export class PostDbDataSource {
   findOneWithComments(id: string): Promise<DetailedPostModel | null> {
     return this.repository
       .createQueryBuilder('post')
-      .innerJoinAndSelect('post.user', 'user')
-      .innerJoinAndSelect('post.comments', 'comments')
-      .innerJoinAndSelect('comments.user', 'userComment')
+      .leftJoinAndSelect('post.user', 'user')
+      .leftJoinAndSelect('post.comments', 'comment')
+      .leftJoinAndSelect('comment.user', 'commentUser')
       .where('post.id = :id', { id })
       .getOne()
   }
