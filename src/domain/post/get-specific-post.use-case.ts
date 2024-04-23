@@ -8,11 +8,10 @@ export class GetSpecificPostUseCase {
 
   async execute(postId: string): Promise<DetailedPostModel> {
     const post = await this.postDataSource.findOneWithComments(postId)
+
     if (!post) {
       throw new Error('Not found error')
     }
-
-    console.log('model: ', post)
 
     return post
   }
