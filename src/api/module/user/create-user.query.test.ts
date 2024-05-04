@@ -6,6 +6,8 @@ import { TestServer } from '@test/test-server.test'
 import { Mutation } from '@test/mutation.test'
 import { UserModel } from '@domain/model'
 import { expect } from 'chai'
+import { createRole } from '@test'
+import { RoleEntity } from '@data/db/entity'
 
 type Response = { createUser: UserModel }
 
@@ -13,6 +15,7 @@ describe('GraphQL - Create a user - Mutation', async () => {
   let makeRequest: MakeRequest
   let testServer: TestServer
   let repositories: Repositories
+  let defaultUserRole: RoleEntity
 
   const mutation = Mutation.createUser
 
@@ -32,6 +35,10 @@ describe('GraphQL - Create a user - Mutation', async () => {
     await testServer.start()
   })
 
+  beforeEach(async () => {
+    defaultUserRole = await repositories.role.save(createRole())
+  })
+
   afterEach(async () => {
     await repositories.clear()
   })
@@ -44,9 +51,22 @@ describe('GraphQL - Create a user - Mutation', async () => {
     const response = await makeRequest.post<Response>(mutation, { input })
 
     const userResponse = response.body.data?.createUser
-    expect(userResponse).to.have.property('name').that.is.eq(input.name)
-    expect(userResponse).to.have.property('username').that.is.eq(input.username)
-    expect(userResponse).to.have.property('email').that.is.eq(input.email)
+    const userDatabase = await repositories.user.findOneOrFail({ where: { id: userResponse.id } })
+    const userRole = await repositories.userRole.findOneOrFail({
+      where: { role: { id: defaultUserRole.id } },
+      relations: {
+        user: true,
+        role: true,
+      },
+    })
+    expect(userResponse).to.be.deep.eq({
+      name: userDatabase.name,
+      username: userDatabase.username,
+      email: userDatabase.email,
+      id: userDatabase.id,
+    })
+    expect(userRole.user.id).to.be.deep.eq(userResponse.id)
+    expect(userRole.role.name).to.be.deep.eq('user')
   })
 
   it('should not create a user using a registered email', async () => {

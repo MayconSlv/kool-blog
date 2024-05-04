@@ -1,4 +1,5 @@
-import { CommentEntity, PostEntity, UserEntity } from '@data/db/entity'
+import { CommentEntity, PostEntity, RoleEntity, UserEntity } from '@data/db/entity'
+import { Roles } from '@domain/model'
 
 export function createUser(options: Partial<UserEntity> = {}): UserEntity {
   const defaultUser: Partial<UserEntity> = {
@@ -45,4 +46,12 @@ export function createComment(options: Partial<CommentEntity> = {}): CommentEnti
   }
 
   return Object.assign(new CommentEntity(), defaultComment, { user }, { post }, options)
+}
+
+export function createRole(options: Partial<RoleEntity> = {}): RoleEntity {
+  const defaultRole: Partial<RoleEntity> = {
+    name: Roles.user,
+  }
+
+  return Object.assign(new RoleEntity(), defaultRole, { defaultRole }, options)
 }
