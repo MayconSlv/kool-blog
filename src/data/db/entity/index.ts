@@ -1,3 +1,7 @@
 export * from './comment.entity'
 export * from './post.entity'
 export * from './user.entity'
+export * from './role-permission.entity'
+export * from './role.entity'
+export * from './user-roles.entity'
+export * from './permission.entity'
