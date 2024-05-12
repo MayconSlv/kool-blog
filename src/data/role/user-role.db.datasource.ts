@@ -14,4 +14,13 @@ export class UserRoleDbDataSource {
       role: { id: input.roleId },
     })
   }
+
+  findByUserId(userId: string): Promise<UserRoleModel[]> {
+    return this.repository
+      .createQueryBuilder('user_role')
+      .innerJoinAndSelect('user_role.user', 'user')
+      .innerJoinAndSelect('user_role.role', 'role')
+      .where('user.id = :userId', { userId })
+      .getMany()
+  }
 }
