@@ -4,10 +4,14 @@ import { compare } from 'bcryptjs'
 import { Service } from 'typedi'
 import jwt from 'jsonwebtoken'
 import { Env } from '@env'
+import { UserRoleDbDataSource } from '@data/role'
 
 @Service()
 export class AuthenticateUserUseCase {
-  constructor(private readonly userDataSource: UserDbDataSource) {}
+  constructor(
+    private readonly userDataSource: UserDbDataSource,
+    private readonly userRoleDataSource: UserRoleDbDataSource,
+  ) {}
 
   async execute(input: AuthenticateUserModel): Promise<AuthenticatedUserModel> {
     const { password, usernameOrEmail } = input
@@ -16,6 +20,8 @@ export class AuthenticateUserUseCase {
     if (!user) {
       throw new Error('invalid credentials error')
     }
+    const userRole = await this.userRoleDataSource.findByUserId(user.id)
+    const userRolesName = userRole.map((item) => item.role.name)
 
     const doesPasswordMatch = await compare(password, user.passwordHash)
     if (!doesPasswordMatch) {
@@ -25,6 +31,7 @@ export class AuthenticateUserUseCase {
     const token = jwt.sign(
       {
         sub: user.id,
+        role: userRolesName,
       },
       Env.JWT_SECRET_KEY,
       {

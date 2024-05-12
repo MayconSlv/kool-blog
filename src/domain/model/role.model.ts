@@ -21,3 +21,8 @@ export interface UserRoleInputModel {
   userId: string
   roleId: string
 }
+
+export interface CheckUserRoleInputModel {
+  userId: string
+  roles: string[]
+}
