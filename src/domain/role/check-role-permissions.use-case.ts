@@ -12,7 +12,6 @@ export class CheckUserPermissionsUseCase {
   ) {}
 
   async exec(input: CheckUserRoleInputModel): Promise<boolean> {
-    console.log(input)
     const { permissions, userId } = input
 
     const user = await this.userDataSource.findById(userId)
