@@ -1,18 +1,14 @@
 import { AuthorizedContextInterface } from '@api/graphql.context'
-import { UserRoleDbDataSource } from '@data/role'
-import { UserDbDataSource } from '@data/user'
-import { CheckUserRoleUseCase } from '@domain/role'
+import { makeCheckRolePermissionsUseCase } from '@domain/factories'
 import { Env } from '@env'
 import jwt from 'jsonwebtoken'
 import { type AuthChecker } from 'type-graphql'
 
 export const ValidateAuthorizationToken: AuthChecker<AuthorizedContextInterface> = async (
   { context },
-  role,
+  permissions,
 ): Promise<boolean> => {
-  const userDataSource = new UserDbDataSource()
-  const userRoleDataSource = new UserRoleDbDataSource()
-  const checkUserRoleUseCase = new CheckUserRoleUseCase(userDataSource, userRoleDataSource)
+  const checkUserPermissionsUseCase = makeCheckRolePermissionsUseCase()
 
   if (!context.token) {
     throw new Error('token not proved')
@@ -24,7 +20,7 @@ export const ValidateAuthorizationToken: AuthChecker<AuthorizedContextInterface>
     throw new Error('invalid token')
   }
 
-  await checkUserRoleUseCase.exec({ userId: context.userId, roles: role })
+  await checkUserPermissionsUseCase.exec({ userId: context.userId, permissions })
 
   return true
 }

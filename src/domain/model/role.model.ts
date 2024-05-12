@@ -24,5 +24,15 @@ export interface UserRoleInputModel {
 
 export interface CheckUserRoleInputModel {
   userId: string
-  roles: string[]
+  permissions: string[]
+}
+
+export interface PermissionModel {
+  name: string
+}
+
+export interface RolePermissionModel {
+  id: string
+  role: RoleModel
+  permission: PermissionModel
 }

@@ -1,1 +1,1 @@
-export * from './check-user-role.use-case'
+export * from './check-role-permissions.use-case'

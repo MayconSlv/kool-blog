@@ -26,6 +26,7 @@ export class PostResolver {
   }
 
   @Query(() => [Post], { description: 'Listar todos os posts' })
+  @Authorized('read')
   getPosts(): Promise<PostModel[]> {
     return this.getPostsUseCase.execute()
   }
