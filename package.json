@@ -13,7 +13,8 @@
     "lint:fix": "eslint src --ext .ts --fix",
     "start": "npm run build && node -r ./tsconfig-paths-dist.js dist/api/index.js",
     "start:dev": "tsc-watch --onSuccess \"node -r ./tsconfig-paths-dist.js dist/api/index.js --inspect\" ",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register --exit 'src/**/*.test.ts' --dotenv dotenv_config_path=.env.test"
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register --exit 'src/**/*.test.ts' --dotenv dotenv_config_path=.env.test",
+    "worker:insert-role-permissions": "npm run build && node -r ./tsconfig-paths-dist.js dist/worker/insert-role-permissions"
   },
   "keywords": [],
   "author": "mayconslv <mayconslv.contato@gmail.com>",

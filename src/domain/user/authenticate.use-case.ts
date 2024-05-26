@@ -35,13 +35,10 @@ export class AuthenticateUserUseCase {
       },
       Env.JWT_SECRET_KEY,
       {
-        expiresIn: '3d',
+        expiresIn: Env.JWT_EXPIRATION_TIME,
       },
     )
 
-    return {
-      user,
-      token,
-    }
+    return { user, token }
   }
 }

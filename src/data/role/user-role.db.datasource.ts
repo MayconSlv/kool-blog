@@ -8,7 +8,7 @@ import { Repository } from 'typeorm'
 export class UserRoleDbDataSource {
   private readonly repository: Repository<UserRolesEntity> = DBConnection.getRepository(UserRolesEntity)
 
-  save(input: UserRoleInputModel): Promise<UserRoleModel> {
+  createUserRole(input: UserRoleInputModel): Promise<UserRoleModel> {
     return this.repository.save({
       user: { id: input.userId },
       role: { id: input.roleId },

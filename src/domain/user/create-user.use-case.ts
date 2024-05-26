@@ -29,8 +29,11 @@ export class CreateUserUseCase {
       passwordHash: await hash(input.password, 6),
     })
 
-    const userDefaultRole = await this.roleDataSource.findByName(Roles.user)
-    await this.userRoleDataSource.save({ userId: user.id, roleId: userDefaultRole.id })
+    const defaultUserRole = await this.roleDataSource.findByName(Roles.user)
+    await this.userRoleDataSource.createUserRole({
+      userId: user.id,
+      roleId: defaultUserRole.id,
+    })
 
     return user
   }

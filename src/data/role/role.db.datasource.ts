@@ -1,5 +1,5 @@
 import { DBConnection } from '@data/db/config'
-import { RoleEntity } from '@data/db/entity/role.entity'
+import { RoleEntity } from '@data/db/entity'
 import { RoleModel, Roles } from '@domain/model'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
