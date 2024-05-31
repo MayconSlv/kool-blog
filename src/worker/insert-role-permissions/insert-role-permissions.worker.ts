@@ -1,5 +1,5 @@
 import { DBConnection } from '@data/db/config'
-import { PermissionEntity, RoleEntity, RolePermissionsEntity } from '../../data/db/entity'
+import { PermissionEntity, RoleEntity, RolePermissionsEntity } from '@data/db/entity'
 
 export async function InsertRolePermissions() {
   const rolePermissionRepository = DBConnection.getRepository(RolePermissionsEntity)
