@@ -20,23 +20,21 @@ export class CheckUserPermissionsUseCase {
     }
 
     const dbUserRoles = await this.userRoleDataSource.findByUserId(user.id)
-    const userPermissions = []
+    const userPermissions: string[] = []
 
     for (const userRole of dbUserRoles) {
-      const rolePermissions = await this.rolePermissionsDataSource.findByRoleId(userRole.id)
+      const rolePermissions = await this.rolePermissionsDataSource.findByRoleId(userRole.role.id)
       if (!rolePermissions) {
         throw new Error('deu erro')
       }
 
-      for (const permission of rolePermissions) {
-        userPermissions.push(permission)
-      }
+      rolePermissions.forEach((item) => {
+        userPermissions.push(item.permission.name)
+      })
     }
 
-    for (const permission of userPermissions) {
-      if (!permissions.includes(permission.permission.name)) {
-        throw new Error('not allowed')
-      }
+    if (!userPermissions.includes(permissions[0])) {
+      throw new Error('deu erro')
     }
 
     return true
