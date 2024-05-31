@@ -20,7 +20,7 @@ export class PostResolver {
   ) {}
 
   @Mutation(() => Post, { description: 'Cria um post' })
-  @Authorized()
+  @Authorized('create')
   createPost(@Arg('input') input: CreatePostInput, @Ctx() context: AuthorizedContextInterface): Promise<PostModel> {
     return this.createPostUseCase.execute({ ...input, userId: context.userId })
   }
@@ -31,13 +31,13 @@ export class PostResolver {
   }
 
   @Mutation(() => String)
-  @Authorized()
+  @Authorized('delete')
   deletePost(@Arg('postId') postId: string, @Ctx() context: AuthorizedContextInterface): Promise<string> {
     return this.deletePostUseCase.execute(postId, context.userId)
   }
 
   @Mutation(() => Post)
-  @Authorized()
+  @Authorized('update')
   updatePost(@Arg('input') input: UpdatePostInput, @Ctx() context: AuthorizedContextInterface): Promise<PostModel> {
     return this.updatePostContentUseCase.execute(input, context.userId)
   }

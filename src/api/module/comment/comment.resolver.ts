@@ -15,8 +15,8 @@ export class CommentResolver {
     private readonly updateCommentUseCase: UpdateCommentUseCase,
   ) {}
 
-  @Mutation(() => Comment, { description: 'Cria um comentário em um post' })
-  @Authorized()
+  @Mutation(() => Comment, { description: 'Cria um comentário em um post.' })
+  @Authorized('create')
   createComment(
     @Arg('input') input: CreateCommentInput,
     @Ctx() context: AuthorizedContextInterface,
@@ -24,14 +24,14 @@ export class CommentResolver {
     return this.createCommentUseCase.execute({ ...input, userId: context.userId })
   }
 
-  @Mutation(() => String, { description: 'Deleta um comentário' })
-  @Authorized()
+  @Mutation(() => String, { description: 'Deleta um comentário.' })
+  @Authorized('delete')
   deleteComment(@Arg('commentId') commentId: string, @Ctx() context: AuthorizedContextInterface): Promise<string> {
     return this.deleteCommentUseCase.execute({ commentId, userId: context.userId })
   }
 
   @Mutation(() => Comment, { description: 'Atualiza um comentário' })
-  @Authorized()
+  @Authorized('update')
   updateComment(
     @Arg('input') input: UpdateCommentInput,
     @Ctx() context: AuthorizedContextInterface,

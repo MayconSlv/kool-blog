@@ -8,7 +8,7 @@ import { authenticateUser } from '@test/authenticate-user.test'
 
 type Response = { createPost: PostModel }
 
-describe('GraphQL - Create a post - Mutation', async () => {
+describe.only('GraphQL - Create a post - Mutation', async () => {
   let makeRequest: MakeRequest
   let testServer: TestServer
   let repositories: Repositories
