@@ -1,9 +1,21 @@
 import { afterEach, before, describe, it } from 'mocha'
 import Container from 'typedi'
 import { expect } from 'chai'
-import { PostModel } from '@domain/model'
-import { PostEntity, UserEntity } from '@data/db/entity'
-import { createPost, createUser, MakeRequest, Mutation, Query, Repositories, TestServer } from '@test'
+import { PostModel, Roles } from '@domain/model'
+import { PermissionEntity, PostEntity, RoleEntity, UserEntity } from '@data/db/entity'
+import {
+  createPermission,
+  createPost,
+  createRole,
+  createRolePermission,
+  createUser,
+  createUserRole,
+  MakeRequest,
+  Mutation,
+  Query,
+  Repositories,
+  TestServer,
+} from '@test'
 import { authenticateUser } from '@test/authenticate-user.test'
 
 type Response = { updatePost: PostModel }
@@ -14,6 +26,8 @@ describe('GraphQL - Update a post - Mutation', async () => {
   let repositories: Repositories
 
   let user: UserEntity
+  let role: RoleEntity
+  let permission: PermissionEntity
   let postsDb: PostEntity[]
   let token: string
 
@@ -29,6 +43,11 @@ describe('GraphQL - Update a post - Mutation', async () => {
 
   beforeEach(async () => {
     user = await repositories.user.save(createUser())
+    role = await repositories.role.save(createRole({ name: Roles.user }))
+    permission = await repositories.permission.save(createPermission({ name: 'update' }))
+
+    await repositories.userRole.save(createUserRole({ user, role }))
+    await repositories.rolePermission.save(createRolePermission({ role, permission }))
     token = authenticateUser(user)
     postsDb = await repositories.post.save([
       createPost({ user, content: 'Post content before update' }),

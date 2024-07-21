@@ -4,10 +4,10 @@ import Container from 'typedi'
 import { MakeRequest } from '@test/make-request.test'
 import { TestServer } from '@test/test-server.test'
 import { Mutation } from '@test/mutation.test'
-import { UserModel } from '@domain/model'
+import { Roles, UserModel } from '@domain/model'
 import { expect } from 'chai'
-import { CommentEntity, PostEntity, UserEntity } from '@data/db/entity'
-import { createPost, createUser } from '@test'
+import { CommentEntity, PermissionEntity, PostEntity, RoleEntity, UserEntity } from '@data/db/entity'
+import { createPermission, createPost, createRole, createRolePermission, createUser, createUserRole } from '@test'
 import { CommentModel } from '@domain/model/comment.model'
 import { checkComment } from '@test/checker.test'
 import { authenticateUser } from '@test/authenticate-user.test'
@@ -21,6 +21,8 @@ describe('GraphQL - Create a comment - Mutation', async () => {
 
   let postDb: PostEntity
   let userDb: UserEntity
+  let role: RoleEntity
+  let permission: PermissionEntity
   let token: string
 
   const mutation = Mutation.createComment
@@ -35,6 +37,11 @@ describe('GraphQL - Create a comment - Mutation', async () => {
 
   beforeEach(async () => {
     userDb = await repositories.user.save(createUser())
+    role = await repositories.role.save(createRole({ name: Roles.user }))
+    permission = await repositories.permission.save(createPermission({ name: 'create' }))
+
+    await repositories.userRole.save(createUserRole({ user: userDb, role }))
+    await repositories.rolePermission.save(createRolePermission({ role, permission }))
     postDb = await repositories.post.save(createPost({ user: userDb }))
     token = authenticateUser(userDb)
   })

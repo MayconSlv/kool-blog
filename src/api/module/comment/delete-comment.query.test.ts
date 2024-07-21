@@ -5,9 +5,18 @@ import { MakeRequest } from '@test/make-request.test'
 import { TestServer } from '@test/test-server.test'
 import { Mutation } from '@test/mutation.test'
 import { expect } from 'chai'
-import { CommentEntity, PostEntity, UserEntity } from '@data/db/entity'
-import { createComment, createPost, createUser } from '@test'
+import { CommentEntity, PermissionEntity, PostEntity, RoleEntity, UserEntity } from '@data/db/entity'
+import {
+  createComment,
+  createPermission,
+  createPost,
+  createRole,
+  createRolePermission,
+  createUser,
+  createUserRole,
+} from '@test'
 import { authenticateUser } from '@test/authenticate-user.test'
+import { Roles } from '@domain/model'
 
 type Response = { deleteComment: string }
 
@@ -18,6 +27,8 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
 
   let postDb: PostEntity
   let userDb: UserEntity
+  let role: RoleEntity
+  let permission: PermissionEntity
   let comments: CommentEntity[]
   let token: string
 
@@ -33,6 +44,11 @@ describe('GraphQL - Delete a comment - Mutation', async () => {
 
   beforeEach(async () => {
     userDb = await repositories.user.save(createUser())
+    role = await repositories.role.save(createRole({ name: Roles.user }))
+    permission = await repositories.permission.save(createPermission({ name: 'delete' }))
+
+    await repositories.userRole.save(createUserRole({ user: userDb, role }))
+    await repositories.rolePermission.save(createRolePermission({ role, permission }))
     postDb = await repositories.post.save(createPost({ user: userDb }))
     token = authenticateUser(userDb)
 

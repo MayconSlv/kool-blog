@@ -1,9 +1,20 @@
 import { afterEach, before, describe, it } from 'mocha'
 import Container from 'typedi'
 import { expect } from 'chai'
-import { PostModel } from '@domain/model'
-import { PostEntity, UserEntity } from '@data/db/entity'
-import { createPost, createUser, MakeRequest, Query, Repositories, TestServer } from '@test'
+import { PostModel, Roles } from '@domain/model'
+import { PermissionEntity, PostEntity, RoleEntity, UserEntity } from '@data/db/entity'
+import {
+  createPermission,
+  createPost,
+  createRole,
+  createRolePermission,
+  createUser,
+  createUserRole,
+  MakeRequest,
+  Query,
+  Repositories,
+  TestServer,
+} from '@test'
 
 type Response = { getPosts: PostModel[] }
 
@@ -13,6 +24,8 @@ describe('GraphQL - Get all posts - Query', async () => {
   let repositories: Repositories
 
   let user: UserEntity
+  let role: RoleEntity
+  let permission: PermissionEntity
   let postsDb: PostEntity[]
 
   const query = Query.getPosts
@@ -27,6 +40,11 @@ describe('GraphQL - Get all posts - Query', async () => {
 
   beforeEach(async () => {
     user = await repositories.user.save(createUser())
+    role = await repositories.role.save(createRole({ name: Roles.user }))
+    permission = await repositories.permission.save(createPermission({ name: 'create' }))
+
+    await repositories.userRole.save(createUserRole({ user, role }))
+    await repositories.rolePermission.save(createRolePermission({ role, permission }))
     postsDb = await repositories.post.save([createPost({ user }), createPost({ user })])
   })
 

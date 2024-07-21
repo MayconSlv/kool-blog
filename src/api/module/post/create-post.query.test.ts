@@ -1,14 +1,24 @@
 import { afterEach, before, describe, it } from 'mocha'
 import Container from 'typedi'
 import { expect } from 'chai'
-import { PostModel } from '@domain/model'
-import { createUser, MakeRequest, Mutation, Repositories, TestServer } from '@test'
-import { UserEntity } from '@data/db/entity'
+import { PostModel, Roles } from '@domain/model'
+import {
+  createPermission,
+  createRole,
+  createRolePermission,
+  createUser,
+  createUserRole,
+  MakeRequest,
+  Mutation,
+  Repositories,
+  TestServer,
+} from '@test'
+import { PermissionEntity, RoleEntity, RolePermissionsEntity, UserEntity, UserRolesEntity } from '@data/db/entity'
 import { authenticateUser } from '@test/authenticate-user.test'
 
 type Response = { createPost: PostModel }
 
-describe.only('GraphQL - Create a post - Mutation', async () => {
+describe('GraphQL - Create a post - Mutation', async () => {
   let makeRequest: MakeRequest
   let testServer: TestServer
   let repositories: Repositories
@@ -17,6 +27,9 @@ describe.only('GraphQL - Create a post - Mutation', async () => {
 
   let token: string
   let user: UserEntity
+  let role: RoleEntity
+  let permission: PermissionEntity
+
   const input = {
     content: `Lorem Ipsum is simply dummy text of the printing and typesetting 
       industry. Lorem Ipsum has been the industry's standard dummy text 
@@ -34,6 +47,12 @@ describe.only('GraphQL - Create a post - Mutation', async () => {
 
   beforeEach(async () => {
     user = await repositories.user.save(createUser())
+    role = await repositories.role.save(createRole({ name: Roles.user }))
+    permission = await repositories.permission.save(createPermission({ name: 'create' }))
+
+    await repositories.userRole.save(createUserRole({ user, role }))
+    await repositories.rolePermission.save(createRolePermission({ role, permission }))
+
     token = authenticateUser(user)
   })
 
@@ -53,7 +72,7 @@ describe.only('GraphQL - Create a post - Mutation', async () => {
     expect(postResponse).to.be.deep.eq({ content: postDatabase?.content, id: postDatabase?.id })
   })
 
-  it('shoult not be able to create a post with a unauthorized user', async () => {
+  it('should not be able to create a post with a unauthorized user', async () => {
     const response = await makeRequest.post(mutation, { input }, 200, { authorization: 'Bearer invalid-token' })
 
     expect(response.body.errors[0]).to.have.property('message').that.is.eq('invalid token')

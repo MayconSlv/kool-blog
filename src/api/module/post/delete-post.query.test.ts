@@ -1,9 +1,21 @@
 import { afterEach, before, describe, it } from 'mocha'
 import Container from 'typedi'
 import { expect } from 'chai'
-import { createPost, createUser, MakeRequest, Mutation, Repositories, TestServer } from '@test'
-import { PostEntity, UserEntity } from '@data/db/entity'
+import {
+  createPermission,
+  createPost,
+  createRole,
+  createRolePermission,
+  createUser,
+  createUserRole,
+  MakeRequest,
+  Mutation,
+  Repositories,
+  TestServer,
+} from '@test'
+import { PermissionEntity, PostEntity, RoleEntity, UserEntity } from '@data/db/entity'
 import { authenticateUser } from '@test/authenticate-user.test'
+import { Roles } from '@domain/model'
 
 type Response = { deletePost: string }
 
@@ -13,6 +25,8 @@ describe('GraphQL - Delete a post - Query', async () => {
   let repositories: Repositories
 
   let user: UserEntity
+  let role: RoleEntity
+  let permission: PermissionEntity
   let posts: PostEntity[]
   let token: string
 
@@ -28,6 +42,11 @@ describe('GraphQL - Delete a post - Query', async () => {
 
   beforeEach(async () => {
     user = await repositories.user.save(createUser())
+    role = await repositories.role.save(createRole({ name: Roles.user }))
+    permission = await repositories.permission.save(createPermission({ name: 'delete' }))
+
+    await repositories.userRole.save(createUserRole({ user, role }))
+    await repositories.rolePermission.save(createRolePermission({ role, permission }))
     posts = await repositories.post.save([createPost({ user }), createPost({ user })])
     token = authenticateUser(user)
   })

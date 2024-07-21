@@ -5,11 +5,20 @@ import { MakeRequest } from '@test/make-request.test'
 import { TestServer } from '@test/test-server.test'
 import { Mutation } from '@test/mutation.test'
 import { expect } from 'chai'
-import { CommentEntity, PostEntity, UserEntity } from '@data/db/entity'
-import { createComment, createPost, createUser } from '@test'
+import { CommentEntity, PermissionEntity, PostEntity, RoleEntity, UserEntity } from '@data/db/entity'
+import {
+  createComment,
+  createPermission,
+  createPost,
+  createRole,
+  createRolePermission,
+  createUser,
+  createUserRole,
+} from '@test'
 import { CommentModel } from '@domain/model/comment.model'
 import { checkComment } from '@test/checker.test'
 import { authenticateUser } from '@test/authenticate-user.test'
+import { Roles } from '@domain/model'
 
 type Response = { updateComment: CommentModel }
 
@@ -20,6 +29,8 @@ describe('GraphQL - Update a comment - Mutation', async () => {
 
   let postDb: PostEntity
   let usersDb: UserEntity[]
+  let role: RoleEntity
+  let permission: PermissionEntity
   let comments: CommentEntity[]
   let token: string
   let tokenNd: string
@@ -36,6 +47,15 @@ describe('GraphQL - Update a comment - Mutation', async () => {
 
   beforeEach(async () => {
     usersDb = await repositories.user.save([createUser(), createUser()])
+    role = await repositories.role.save(createRole({ name: Roles.user }))
+    permission = await repositories.permission.save(createPermission({ name: 'update' }))
+
+    await Promise.all([
+      repositories.userRole.save(createUserRole({ user: usersDb[0], role })),
+      repositories.userRole.save(createUserRole({ user: usersDb[1], role })),
+      repositories.rolePermission.save(createRolePermission({ role, permission })),
+    ])
+
     postDb = await repositories.post.save(createPost({ user: usersDb[0] }))
     token = authenticateUser(usersDb[0])
     tokenNd = authenticateUser(usersDb[1])
