@@ -1,14 +1,15 @@
 import { AuthorizedContextInterface } from '@api/graphql.context'
-import { makeCheckRolePermissionsUseCase } from '@domain/factories'
+import { CheckUserPermissionsUseCase } from '@domain/role'
 import { Env } from '@env'
 import jwt from 'jsonwebtoken'
 import { type AuthChecker } from 'type-graphql'
+import Container from 'typedi'
 
 export const ValidateAuthorizationToken: AuthChecker<AuthorizedContextInterface> = async (
   { context },
   permissions,
 ): Promise<boolean> => {
-  const checkUserPermissionsUseCase = makeCheckRolePermissionsUseCase()
+  const checkUserPermissionsUseCase = Container.get(CheckUserPermissionsUseCase)
 
   if (!context.token) {
     throw new Error('token not proved')

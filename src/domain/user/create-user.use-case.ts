@@ -30,6 +30,10 @@ export class CreateUserUseCase {
     })
 
     const defaultUserRole = await this.roleDataSource.findByName(Roles.user)
+    if (!defaultUserRole) {
+      throw new Error('role not found')
+    }
+
     await this.userRoleDataSource.createUserRole({
       userId: user.id,
       roleId: defaultUserRole.id,
