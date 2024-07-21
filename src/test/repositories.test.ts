@@ -1,6 +1,7 @@
 import { DBConnection } from '@data/db/config'
 import {
   CommentEntity,
+  GroupEntity,
   PermissionEntity,
   PostEntity,
   RoleEntity,
@@ -19,6 +20,7 @@ export class Repositories {
   userRole = DBConnection.getRepository(UserRolesEntity)
   permission = DBConnection.getRepository(PermissionEntity)
   rolePermission = DBConnection.getRepository(RolePermissionsEntity)
+  group = DBConnection.getRepository(GroupEntity)
 
   async clear(): Promise<void> {
     await DBConnection.query('DELETE FROM "comment";')
@@ -28,5 +30,6 @@ export class Repositories {
     await DBConnection.query('DELETE FROM "role";')
     await DBConnection.query('DELETE FROM "user";')
     await DBConnection.query('DELETE FROM "permission";')
+    await DBConnection.query('DELETE FROM "group";')
   }
 }
