@@ -94,6 +94,7 @@ export function createUserRole(options: Partial<UserRolesEntity> = {}): UserRole
       passwordHash: '123456',
       createdAt: new Date(),
       updatedAt: new Date(),
+      groups: [],
     },
     role: { name: Roles.user, id: '1', createdAt: new Date(), updatedAt: new Date() },
   }

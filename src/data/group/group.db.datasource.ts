@@ -1,6 +1,6 @@
 import { DBConnection } from '@data/db/config'
 import { GroupEntity, UserEntity } from '@data/db/entity'
-import { CreatedGroupModel, CreateGroupInputModel, UserModel } from '@domain/model'
+import { CreatedGroupModel, CreateGroupInputModel, GroupModel, UserModel } from '@domain/model'
 import { Service } from 'typedi'
 import { Repository } from 'typeorm'
 
@@ -12,5 +12,9 @@ export class GroupDbDataSource {
     const { userCreator } = data
 
     return this.repository.save({ group_creator: userCreator, ...data })
+  }
+
+  findMany(): Promise<GroupModel[]> {
+    return this.repository.find()
   }
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import { BaseColumnsEntity } from '../core'
 import { UserEntity } from './user.entity'
 
@@ -10,8 +10,9 @@ export class GroupEntity extends BaseColumnsEntity {
   @Column({ length: '200' })
   description: string
 
-  @OneToMany(() => UserEntity, (user) => user.id)
-  participants: UserEntity
+  @ManyToMany(() => UserEntity, (user) => user.groups)
+  @JoinTable({ name: 'participants_groups' })
+  participants: UserEntity[]
 
   @Column()
   group_creator: string
