@@ -1,6 +1,6 @@
 import { GroupDbDataSource } from '@data/group/group.db.datasource'
 import { UserDbDataSource } from '@data/user'
-import { CreatedGroupModel, CreateGroupInputModel } from '@domain/model'
+import { CreateGroupInputModel, GroupModel } from '@domain/model'
 import { Service } from 'typedi'
 
 @Service()
@@ -10,7 +10,7 @@ export class CreateGroupUseCase {
     private readonly groupDbDataSource: GroupDbDataSource,
   ) {}
 
-  async exec(input: CreateGroupInputModel): Promise<CreatedGroupModel> {
+  async exec(input: CreateGroupInputModel): Promise<GroupModel> {
     const { description, name, userCreator } = input
 
     const user = await this.userDbDataSource.findById(userCreator)
@@ -18,6 +18,6 @@ export class CreateGroupUseCase {
       throw new Error('user not found')
     }
 
-    return this.groupDbDataSource.create({ name, description, userCreator })
+    return this.groupDbDataSource.create({ name, description, userCreator: user })
   }
 }

@@ -1,5 +1,5 @@
 import { PermissionEntity, RoleEntity, UserEntity } from '@data/db/entity'
-import { CreatedGroupModel, CreateGroupInputModel, Roles } from '@domain/model'
+import { GroupModel, Roles } from '@domain/model'
 import {
   createPermission,
   createRole,
@@ -16,7 +16,7 @@ import { expect } from 'chai'
 import { describe } from 'mocha'
 import Container from 'typedi'
 
-type Response = { createGroup: CreatedGroupModel }
+type Response = { createGroup: GroupModel }
 
 describe('GraphQL - Create Group - Mutation', async () => {
   let makeRequest: MakeRequest
@@ -72,13 +72,13 @@ describe('GraphQL - Create Group - Mutation', async () => {
       id: groupDatabase.id,
       name: groupDatabase.name,
       description: groupDatabase.description,
-      group_creator: groupDatabase.group_creator,
+      groupCreator: groupDatabase.groupCreator,
     })
     expect(groupResponse).to.be.deep.eq({
       id: groupDatabase.id,
       name: input.name,
       description: input.description,
-      group_creator: user.id,
+      groupCreator: user.id,
     })
   })
 
@@ -92,19 +92,19 @@ describe('GraphQL - Create Group - Mutation', async () => {
     const secondGroupResponse = secondResponse.body.data.createGroup
     const firstGroupData = await repositories.group.findOneOrFail({ where: { id: firstGroupResponse.id } })
     const secondGroupData = await repositories.group.findOneOrFail({ where: { id: secondGroupResponse.id } })
-    const groupsDatabase = await repositories.group.find({ where: { group_creator: user.id } })
+    const groupsDatabase = await repositories.group.find({ where: { groupCreator: user } })
 
     expect(firstGroupResponse).to.be.deep.eq({
       id: firstGroupData.id,
       name: firstGroupData.name,
       description: firstGroupData.description,
-      group_creator: firstGroupData.group_creator,
+      groupCreator: firstGroupData.groupCreator,
     })
     expect(secondGroupResponse).to.be.deep.eq({
       id: secondGroupData.id,
       name: secondGroupData.name,
       description: secondGroupData.description,
-      group_creator: secondGroupData.group_creator,
+      groupCreator: secondGroupData.groupCreator,
     })
     expect(groupsDatabase).to.have.length(2)
   })

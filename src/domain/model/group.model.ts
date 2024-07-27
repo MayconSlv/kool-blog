@@ -1,12 +1,5 @@
 import { UserModel } from './user.model'
 
-export interface CreatedGroupModel {
-  id: string
-  name: string
-  description: string
-  group_creator: string
-}
-
 export interface CreateGroupInputModel {
   name: string
   description: string
@@ -17,7 +10,7 @@ export interface GroupModel {
   id: string
   name: string
   description: string
-  group_creator: string
+  groupCreator: UserModel
 }
 
 export interface DetailedGroupModel extends GroupModel {

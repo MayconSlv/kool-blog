@@ -14,6 +14,6 @@ export class GroupEntity extends BaseColumnsEntity {
   @JoinTable({ name: 'participants_groups' })
   participants: UserEntity[]
 
-  @Column()
-  group_creator: string
+  @OneToMany(() => UserEntity, (user) => user.id)
+  groupCreator: UserEntity
 }

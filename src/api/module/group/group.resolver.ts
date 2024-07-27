@@ -1,5 +1,5 @@
 import { CreateGroupUseCase } from '@domain/group'
-import { CreatedGroupModel, GroupModel } from '@domain/model'
+import { GroupModel } from '@domain/model'
 import { Arg, Authorized, Ctx, Mutation, Query } from 'type-graphql'
 import { Service } from 'typedi'
 import { CreatedGroupInput } from './group.input'
@@ -16,10 +16,7 @@ export class GroupResolver {
 
   @Mutation(() => CreatedGroup, { description: 'Cria um grupo ' })
   @Authorized('create')
-  createGroup(
-    @Arg('input') input: CreatedGroupInput,
-    @Ctx() context: AuthorizedContextInterface,
-  ): Promise<CreatedGroupModel> {
+  createGroup(@Arg('input') input: CreatedGroupInput, @Ctx() context: AuthorizedContextInterface): Promise<GroupModel> {
     return this.createGroupUseCase.exec({ userCreator: context.userId, ...input })
   }
 

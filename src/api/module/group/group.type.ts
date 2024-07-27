@@ -1,10 +1,10 @@
-import { CreatedGroupModel, GroupModel, UserModel } from '@domain/model'
+import { GroupModel, UserModel } from '@domain/model'
 import { Field, ObjectType } from 'type-graphql'
 import { User } from '../user/user.type'
 import { IsOptional } from 'class-validator'
 
 @ObjectType()
-export class CreatedGroup implements CreatedGroupModel {
+export class CreatedGroup implements GroupModel {
   @Field()
   id: string
 
@@ -14,8 +14,8 @@ export class CreatedGroup implements CreatedGroupModel {
   @Field({ description: 'Descrição do grupo' })
   description: string
 
-  @Field({ description: 'ID do criador do grupo' })
-  group_creator: string
+  @Field(() => User, { description: 'ID do criador do grupo' })
+  groupCreator: User
 }
 
 @ObjectType()
@@ -29,6 +29,6 @@ export class Group implements GroupModel {
   @Field()
   description: string
 
-  @Field()
-  group_creator: string
+  @Field(() => User)
+  groupCreator: User
 }
