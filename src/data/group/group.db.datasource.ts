@@ -7,7 +7,7 @@ import { Repository } from 'typeorm'
 interface CreateGroupInput {
   name: string
   description: string
-  userCreator: UserModel
+  groupCreator: UserModel
 }
 
 @Service()

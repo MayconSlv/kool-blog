@@ -11,13 +11,13 @@ export class CreateGroupUseCase {
   ) {}
 
   async exec(input: CreateGroupInputModel): Promise<GroupModel> {
-    const { description, name, userCreator } = input
+    const { description, name, groupCreator } = input
 
-    const user = await this.userDbDataSource.findById(userCreator)
+    const user = await this.userDbDataSource.findById(groupCreator)
     if (!user) {
       throw new Error('user not found')
     }
 
-    return this.groupDbDataSource.create({ name, description, userCreator: user })
+    return this.groupDbDataSource.create({ name, description, groupCreator: user })
   }
 }

@@ -3,7 +3,7 @@ import { GroupModel } from '@domain/model'
 import { Arg, Authorized, Ctx, Mutation, Query } from 'type-graphql'
 import { Service } from 'typedi'
 import { CreatedGroupInput } from './group.input'
-import { CreatedGroup, Group } from './group.type'
+import { Group } from './group.type'
 import { AuthorizedContextInterface } from '@api/graphql.context'
 import { FetchGroupsUseCase } from '@domain/group/fetch-groups.use-case'
 
@@ -14,10 +14,10 @@ export class GroupResolver {
     private readonly fetchGroupsUseCase: FetchGroupsUseCase,
   ) {}
 
-  @Mutation(() => CreatedGroup, { description: 'Cria um grupo ' })
+  @Mutation(() => Group, { description: 'Cria um grupo ' })
   @Authorized('create')
   createGroup(@Arg('input') input: CreatedGroupInput, @Ctx() context: AuthorizedContextInterface): Promise<GroupModel> {
-    return this.createGroupUseCase.exec({ userCreator: context.userId, ...input })
+    return this.createGroupUseCase.exec({ groupCreator: context.userId, ...input })
   }
 
   @Query(() => [Group], { description: 'Lista todos os grupos' })

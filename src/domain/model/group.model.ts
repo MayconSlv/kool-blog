@@ -3,7 +3,7 @@ import { UserModel } from './user.model'
 export interface CreateGroupInputModel {
   name: string
   description: string
-  userCreator: string
+  groupCreator: string
 }
 
 export interface GroupModel {

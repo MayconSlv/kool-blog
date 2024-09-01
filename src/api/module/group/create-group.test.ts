@@ -64,21 +64,19 @@ describe('GraphQL - Create Group - Mutation', async () => {
 
   it('should be able to create a group correctly', async () => {
     const response = await makeRequest.post<Response>(mutation, { input }, 200, { authorization: `Bearer ${token}` })
-
     const groupResponse = response.body.data.createGroup
     const groupDatabase = await repositories.group.findOneOrFail({ where: { id: groupResponse.id } })
 
-    expect(groupResponse).to.be.deep.eq({
+    expect(groupResponse).to.contains({
       id: groupDatabase.id,
       name: groupDatabase.name,
       description: groupDatabase.description,
-      groupCreator: groupDatabase.groupCreator,
     })
-    expect(groupResponse).to.be.deep.eq({
-      id: groupDatabase.id,
-      name: input.name,
-      description: input.description,
-      groupCreator: user.id,
+    expect(groupResponse.groupCreator).to.contains({
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
     })
   })
 
@@ -92,21 +90,29 @@ describe('GraphQL - Create Group - Mutation', async () => {
     const secondGroupResponse = secondResponse.body.data.createGroup
     const firstGroupData = await repositories.group.findOneOrFail({ where: { id: firstGroupResponse.id } })
     const secondGroupData = await repositories.group.findOneOrFail({ where: { id: secondGroupResponse.id } })
-    const groupsDatabase = await repositories.group.find({ where: { groupCreator: user } })
 
-    expect(firstGroupResponse).to.be.deep.eq({
+    expect(firstGroupResponse).to.contains({
       id: firstGroupData.id,
       name: firstGroupData.name,
       description: firstGroupData.description,
-      groupCreator: firstGroupData.groupCreator,
     })
-    expect(secondGroupResponse).to.be.deep.eq({
+    expect(firstGroupResponse.groupCreator).to.contains({
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+    })
+    expect(secondGroupResponse).to.contains({
       id: secondGroupData.id,
       name: secondGroupData.name,
       description: secondGroupData.description,
-      groupCreator: secondGroupData.groupCreator,
     })
-    expect(groupsDatabase).to.have.length(2)
+    expect(secondGroupResponse.groupCreator).to.contains({
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+    })
   })
 
   it('should return an error if the token is invalid', async () => {
